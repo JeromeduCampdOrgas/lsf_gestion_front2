@@ -1,5 +1,10 @@
 import { useState } from "react";
 import configAxios from "../../config/configAxios";
+import { useNavigate } from "react-router-dom";
+//Redux
+import { useDispatch } from "react-redux";
+//import { addConnexion } from "../../redux/user/userSlice";
+import { addConnexion } from "../../feature/userSlice";
 
 //********** styled-components */
 import styled from "styled-components";
@@ -53,6 +58,9 @@ const LoginFormStyled = styled.form`
 
 const Login = () => {
   const [signed, setSigned] = useState(false);
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const goSignin = () => {
     setSigned(!signed);
   };
@@ -68,7 +76,9 @@ const Login = () => {
         })
         .then((response) => {
           if (response.data.token) {
-            console.log(response.data.user);
+            localStorage.setItem("token", response.data.token);
+            dispatch(addConnexion(response.data.token));
+            navigate("/", { replace: true });
           }
         })
         .catch((error) => {

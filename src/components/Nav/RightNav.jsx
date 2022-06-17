@@ -1,6 +1,10 @@
 /****** Modules **********/
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+//import { store, deleteConnexion } from "../../redux/user/userSlice";
+import { deleteConnexion } from "../../feature/userSlice";
+import store from "../../app/store.js";
+import { Provider, useSelector, useDispatch } from "react-redux";
 
 const Ul = styled.ul`
   list-style: none;
@@ -28,30 +32,47 @@ const Ul = styled.ul`
 `;
 
 const RightNav = ({ open }, { setopen }) => {
+  const utilisateur = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const disconnect = () => {
+    dispatch(deleteConnexion(0));
+  };
   return (
-    <Ul open={open} setopen={setopen}>
-      <li id="home">
-        <Link
-          className="navbar__link"
-          to={"/"}
-          onClick={() => (open ? setopen(false) : "")}
-        >
-          Accueil
-        </Link>
-      </li>
-      <li>About us</li>
-      <li>Contact us</li>
-      <li id="login">
-        <Link
-          className="navbar__link"
-          to={"/connexion"}
-          onClick={() => (open ? setopen(false) : "")}
-        >
-          Se connecter
-        </Link>
-      </li>
-      <li>Sign Up</li>
-    </Ul>
+    <Provider store={store}>
+      <Ul open={open} setopen={setopen}>
+        <li id="home">
+          <Link
+            className="navbar__link"
+            to={"/"}
+            onClick={() => (open ? setopen(false) : "")}
+          >
+            Accueil
+          </Link>
+        </li>
+        <li>About us</li>
+        <li>Contact us</li>
+        <li id="login">
+          {utilisateur.length > 0 ? (
+            <Link
+              className="navbar__link"
+              to={"/connexion"}
+              onClick={() => disconnect()}
+            >
+              Se déconnecter
+            </Link>
+          ) : (
+            <Link
+              className="navbar__link"
+              to={"/connexion"}
+              onClick={() => (open ? setopen(false) : "")}
+            >
+              Se connecter
+            </Link>
+          )}
+        </li>
+        <li>Sign Up</li>
+      </Ul>
+    </Provider>
   );
 };
 export default RightNav;
