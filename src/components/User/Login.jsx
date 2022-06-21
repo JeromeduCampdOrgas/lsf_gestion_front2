@@ -10,6 +10,7 @@ import { addConnexion } from "../../feature/userSlice";
 import styled from "styled-components";
 /****** Pages *************************/
 import Signin from "./Signin";
+
 //************ CSS **************************************/
 const LoginFormStyled = styled.form`
   display: flex;
@@ -78,11 +79,12 @@ const Login = () => {
           if (response.data.token) {
             localStorage.setItem("token", response.data.token);
             dispatch(addConnexion(response.data.token));
+            //dispatch(isConnected(true));
             navigate("/", { replace: true });
           }
         })
         .catch((error) => {
-          console.log(error.response);
+          console.log(error);
         });
     } else {
       console.log("C'est tout vide");

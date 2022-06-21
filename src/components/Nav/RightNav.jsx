@@ -4,7 +4,11 @@ import styled from "styled-components";
 //import { store, deleteConnexion } from "../../redux/user/userSlice";
 import { deleteConnexion } from "../../feature/userSlice";
 import store from "../../app/store.js";
+
 import { Provider, useSelector, useDispatch } from "react-redux";
+import jwtDecode from "jwt-decode";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Ul = styled.ul`
   list-style: none;
@@ -34,9 +38,24 @@ const Ul = styled.ul`
 const RightNav = ({ open }, { setopen }) => {
   const utilisateur = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const [role, setRole] = useState();
   const disconnect = () => {
+    localStorage.removeItem("token");
+    setRole("");
     dispatch(deleteConnexion(0));
   };
+  const connected = () => {
+    if (utilisateur.length > 0) {
+      const token = localStorage.getItem("token");
+      const decoded = jwtDecode(token);
+      setRole(decoded.role);
+    }
+  };
+  useEffect(() => {
+    connected();
+  });
+
   return (
     <Provider store={store}>
       <Ul open={open} setopen={setopen}>
@@ -70,7 +89,10 @@ const RightNav = ({ open }, { setopen }) => {
             </Link>
           )}
         </li>
-        <li>Sign Up</li>
+
+        <li>
+          {role === "admin" ? <Link to={"/administration"}>Admin</Link> : ""}
+        </li>
       </Ul>
     </Provider>
   );
