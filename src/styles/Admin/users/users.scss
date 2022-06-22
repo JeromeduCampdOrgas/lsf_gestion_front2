@@ -1,0 +1,16 @@
+.card {
+  width: 30%;
+  border: 1px black solid;
+  text-align: center;
+  margin: auto;
+  & .image {
+    margin: auto;
+  }
+  & p {
+    font-weight: 200;
+    font-size: 20px;
+
+    margin-bottom: 10px;
+    margin: auto auto 20px auto;
+  }
+}

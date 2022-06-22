@@ -12,13 +12,17 @@ import {
 } from "redux-persist";
 
 import userReducer from "../feature/userSlice";
+import usersListReducer from "../feature/usersListSlice";
 
 const persistConfig = {
   key: "user",
   storage,
 };
 
-const reducers = combineReducers({ user: userReducer });
+const reducers = combineReducers({
+  user: userReducer,
+  usersList: usersListReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
