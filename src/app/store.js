@@ -11,8 +11,9 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import userReducer from "../feature/userSlice";
-import usersListReducer from "../feature/usersListSlice";
+import userReducer from "../feature/users/userSlice";
+import usersListReducer from "../feature/users/usersListSlice";
+import selectedUserReducer from "../feature/users/selectedUserSlice";
 
 const persistConfig = {
   key: "user",
@@ -22,6 +23,7 @@ const persistConfig = {
 const reducers = combineReducers({
   user: userReducer,
   usersList: usersListReducer,
+  selectedUser: selectedUserReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

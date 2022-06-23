@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import configAxios from "../../../config/configAxios";
 //Redux
 import { useDispatch } from "react-redux";
-import { getUsersList } from "../../../feature/usersListSlice";
+import { getUsersList } from "../../../feature/users/usersListSlice";
 
 const UserCard = () => {
   const dispatch = useDispatch();

@@ -2,7 +2,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 //import { store, deleteConnexion } from "../../redux/user/userSlice";
-import { deleteConnexion } from "../../feature/userSlice";
+import { deleteConnexion } from "../../feature/users/userSlice";
+import { deleteUsersList } from "../../feature/users/usersListSlice";
 import store from "../../app/store.js";
 
 import { Provider, useSelector, useDispatch } from "react-redux";
@@ -44,6 +45,7 @@ const RightNav = ({ open }, { setopen }) => {
     localStorage.removeItem("token");
     setRole("");
     dispatch(deleteConnexion(0));
+    dispatch(deleteUsersList());
   };
   const connected = () => {
     if (utilisateur.length > 0) {

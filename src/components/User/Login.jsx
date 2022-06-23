@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 //Redux
 import { useDispatch } from "react-redux";
 //import { addConnexion } from "../../redux/user/userSlice";
-import { addConnexion } from "../../feature/userSlice";
+import { addConnexion } from "../../feature/users/userSlice";
 
 //********** styled-components */
 import styled from "styled-components";
