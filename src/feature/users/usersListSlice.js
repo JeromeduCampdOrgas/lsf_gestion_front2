@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const usersListSlice = createSlice({
   name: "usersList",
-  initialState: ["coucou"],
+  initialState: [],
   reducers: {
     getUsersList: (state, { payload }) => {
       state.splice(0, 1);

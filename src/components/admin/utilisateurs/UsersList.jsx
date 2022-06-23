@@ -5,7 +5,6 @@ import "../../../styles/Admin/users/usersList.scss";
 
 const UsersList = () => {
   const allUsers = useSelector((state) => state.usersList[0]);
-  console.log(allUsers);
   return (
     <Provider store={store}>
       <div>
