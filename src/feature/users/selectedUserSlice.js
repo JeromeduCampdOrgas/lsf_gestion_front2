@@ -6,11 +6,14 @@ export const selectedUserSlice = createSlice({
   reducers: {
     addSelection: (state, { payload }) => {
       state = payload;
-
+      return state;
+    },
+    deleteSelection: (state, action) => {
+      state = null;
       return state;
     },
   },
 });
 
-export const { addSelection } = selectedUserSlice.actions;
+export const { addSelection, deleteSelection } = selectedUserSlice.actions;
 export default selectedUserSlice.reducer;

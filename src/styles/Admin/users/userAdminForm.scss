@@ -1,0 +1,42 @@
+#user-admin-form {
+  display: flex;
+  flex-direction: column;
+
+  & H1,
+  form {
+    margin: auto;
+  }
+  & form {
+    margin-top: 50px;
+    width: 30%;
+    background-color: rgb(127, 127, 225);
+    padding: 20px;
+    border-radius: 15px;
+    & .user-info {
+      margin-bottom: 20px;
+      & input,
+      select {
+        margin-left: 50px;
+      }
+    }
+    & #buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 60%;
+      margin: 50px auto;
+
+      & .btn {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+      }
+      & #btn-valid {
+        background-color: green;
+      }
+      & #btn-escape {
+        background-color: rgb(196, 69, 69);
+      }
+    }
+  }
+}

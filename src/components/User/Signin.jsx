@@ -13,7 +13,7 @@ const SigninFormStyled = styled.form`
   align-items: center;
   margin: auto;
   width: 40%;
-  background-color: #29567e;
+  background-color: rgb(127, 127, 225);
   border-radius: 15px;
 
   & input {

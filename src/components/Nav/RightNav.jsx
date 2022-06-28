@@ -4,6 +4,9 @@ import styled from "styled-components";
 //import { store, deleteConnexion } from "../../redux/user/userSlice";
 import { deleteConnexion } from "../../feature/users/userSlice";
 import { deleteUsersList } from "../../feature/users/usersListSlice";
+//import { deleteSelectedUser } from "../../feature/users/selectedUserDataSlice";
+import { deleteSelection } from "../../feature/users/selectedUserSlice";
+import { deleteRoles } from "../../feature/users/rolesSlice";
 
 import store from "../../app/store.js";
 
@@ -39,15 +42,23 @@ const Ul = styled.ul`
 
 const RightNav = ({ open }, { setopen }) => {
   const utilisateur = useSelector((state) => state.user);
+  const userDataLength = useSelector((state) => state.selectedUserData);
   const dispatch = useDispatch();
-
   const [role, setRole] = useState();
+  /**** Déconnexion */
   const disconnect = () => {
     localStorage.removeItem("token");
     setRole("");
     dispatch(deleteConnexion(0));
     dispatch(deleteUsersList());
+    dispatch(deleteSelection());
+    /*for (let i = 0; i < userDataLength.length; i++) {
+      dispatch(deleteSelectedUser());
+    }*/
+    dispatch(deleteRoles());
   };
+
+  /****** Connexion */
   const connected = () => {
     if (utilisateur.length > 0) {
       const token = localStorage.getItem("token");

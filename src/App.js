@@ -6,7 +6,7 @@ import Login from "./components/User/Login";
 
 import AdminAccueil from "./components/admin/AdminAccueil";
 import UsersList from "./components/admin/utilisateurs/UsersList";
-import UserAdminForm from "./components/admin/utilisateurs/UserAdminForm";
+import UserVue from "./components/admin/utilisateurs/UserVue";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
             <Route path="/connexion" element={<Login />} />
             <Route path="/administration" element={<AdminAccueil />} />
             <Route path="/adminUsers" element={<UsersList />} />
-            <Route path="/userupdate" element={<UserAdminForm />} />
+            <Route path="/userupdate" element={<UserVue />} />
           </Routes>
         </div>
       </Router>

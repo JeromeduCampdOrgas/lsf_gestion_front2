@@ -3,7 +3,6 @@ import configAxios from "../../config/configAxios";
 import { useNavigate } from "react-router-dom";
 //Redux
 import { useDispatch } from "react-redux";
-//import { addConnexion } from "../../redux/user/userSlice";
 import { addConnexion } from "../../feature/users/userSlice";
 
 //********** styled-components */
@@ -18,7 +17,7 @@ const LoginFormStyled = styled.form`
   align-items: center;
   margin: auto;
   width: 40%;
-  background-color: #29567e;
+  background-color: rgb(127, 127, 225);
   border-radius: 15px;
 
   & input {
