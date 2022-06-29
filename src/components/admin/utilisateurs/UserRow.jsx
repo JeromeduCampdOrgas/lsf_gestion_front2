@@ -24,6 +24,7 @@ const UserRow = ({ user }) => {
         rolesArray.push(role);
       }
     }
+
     //dispatch de la liste des rôles dans le store
     dispatch(addRoles(rolesArray));
 

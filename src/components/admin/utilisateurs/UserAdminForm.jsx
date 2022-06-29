@@ -7,8 +7,8 @@ import {
 } from "../../../feature/users/selectedUserDataSlice";
 import { deleteSelection } from "../../../feature/users/selectedUserSlice";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import configAxios from "../../../config/configAxios";
 
 /*********  CSS **************/
 import "../../../styles/Admin/users/userAdminForm.scss";
@@ -21,13 +21,16 @@ const UserAdminForm = () => {
   const selectedUserId = useSelector((state) => state.selectedUser);
   const selectedUserData = useSelector((state) => state.selectedUserData);
   const listRoles = useSelector((state) => state.roles);
+
+  const [userRole, setUserRole] = useState();
   useEffect(() => {
     const userData = usersList.filter(
       (user) => user.id === parseInt(selectedUserId)
     );
 
+    setUserRole(userData[0].role);
     dispatch(addUserData(userData));
-  }, []);
+  }, [dispatch, selectedUserId, usersList]);
 
   /********** Annulation action et retour page users administration ******/
   //Remise à zero du store
@@ -43,6 +46,63 @@ const UserAdminForm = () => {
     clearStore();
     navigate("/adminUsers", { replace: true });
   };
+  const handle = (event) => {
+    console.log(event.target.value);
+    setUserRole(event.target.value);
+  };
+  /******** Validation des modifications ***********/
+  const validation = () => {
+    console.log("je suis sur le point de valider");
+    //To do
+    //Récupération valeur ou placeholder
+    console.log(selectedUserId);
+    let nom = document.getElementById("nom");
+    let prenom = document.getElementById("prenom");
+    let email = document.getElementById("email");
+    let tel = document.getElementById("tel");
+    let n_rue = document.getElementById("n_rue");
+    let rue = document.getElementById("rue");
+    let cp = document.getElementById("cp");
+    let ville = document.getElementById("ville");
+
+    let role = userRole;
+    console.log("role: ", role);
+    const token = localStorage.getItem("token");
+
+    nom.value ? (nom = nom.value) : (nom = nom.placeholder);
+    prenom.value ? (prenom = prenom.value) : (prenom = prenom.placeholder);
+    email.value ? (email = email.value) : (email = email.placeholder);
+    tel.value ? (tel = tel.value) : (tel = tel.placeholder);
+    n_rue.value ? (n_rue = n_rue.value) : (n_rue = n_rue.placeholder);
+    rue.value ? (rue = rue.value) : (rue = rue.placeholder);
+    cp.value ? (cp = cp.value) : (cp = cp.placeholder);
+    ville.value ? (ville = ville.value) : (ville = ville.placeholder);
+    //appeler axios
+    configAxios
+      .put(
+        `users/${selectedUserId}`,
+        {
+          nom: nom,
+          prenom: prenom,
+          email: email,
+          tel: tel,
+          n_rue: n_rue,
+          rue: rue,
+          cp: cp,
+          ville: ville,
+          role: role,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
+
+  /**************************************************/
   return (
     <Provider store={store}>
       <div id="user-admin-form">
@@ -115,8 +175,8 @@ const UserAdminForm = () => {
               <select
                 name="roles"
                 id="roles"
-                value={selectedUserData[0].role}
-                onChange={(event) => console.log(event.target.value)}
+                value={userRole}
+                onChange={handle}
               >
                 {listRoles[0].map((role) => (
                   <option key={role} value={role}>
@@ -131,6 +191,7 @@ const UserAdminForm = () => {
                 className="btn"
                 type="button"
                 value="Valider"
+                onClick={() => validation()}
               />
 
               <input
