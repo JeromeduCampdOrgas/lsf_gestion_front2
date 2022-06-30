@@ -2,13 +2,15 @@ import userImg from "../../../assets/images/utilisateurs/users.jpg";
 import "../../../styles/Admin/users/users.scss";
 import { Link } from "react-router-dom";
 import configAxios from "../../../config/configAxios";
+
 //Redux
 import { useDispatch } from "react-redux";
 import { getUsersList } from "../../../feature/users/usersListSlice";
 
 const UserCard = () => {
   const dispatch = useDispatch();
-  const test = () => {
+
+  const getAllUsers = () => {
     configAxios
       .get("users")
       .then((response) => {
@@ -17,7 +19,7 @@ const UserCard = () => {
       .catch(() => console.log("ça commence à me faire chier!"));
   };
   return (
-    <li onClick={() => test()}>
+    <li onClick={() => getAllUsers()}>
       <Link className="users-link" to={"/adminUsers"}>
         <div className="card">
           <div className="image">

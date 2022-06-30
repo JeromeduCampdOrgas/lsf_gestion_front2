@@ -6,6 +6,7 @@ import {
   deleteUserData,
 } from "../../../feature/users/selectedUserDataSlice";
 import { deleteSelection } from "../../../feature/users/selectedUserSlice";
+import { getUsersList } from "../../../feature/users/usersListSlice";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import configAxios from "../../../config/configAxios";
@@ -27,7 +28,6 @@ const UserAdminForm = () => {
     const userData = usersList.filter(
       (user) => user.id === parseInt(selectedUserId)
     );
-
     setUserRole(userData[0].role);
     dispatch(addUserData(userData));
   }, [dispatch, selectedUserId, usersList]);
@@ -38,24 +38,18 @@ const UserAdminForm = () => {
     dispatch(deleteUserData());
     dispatch(deleteSelection());
     dispatch(deleteRoles());
-    /*for (let i = 0; i < userDataLength.length; i++) {
-      dispatch(deleteSelectedUser());
-    }*/
   };
   const retour = () => {
     clearStore();
     navigate("/adminUsers", { replace: true });
   };
   const handle = (event) => {
-    console.log(event.target.value);
     setUserRole(event.target.value);
   };
   /******** Validation des modifications ***********/
-  const validation = () => {
-    console.log("je suis sur le point de valider");
-    //To do
+
+  const validation = async () => {
     //Récupération valeur ou placeholder
-    console.log(selectedUserId);
     let nom = document.getElementById("nom");
     let prenom = document.getElementById("prenom");
     let email = document.getElementById("email");
@@ -64,9 +58,8 @@ const UserAdminForm = () => {
     let rue = document.getElementById("rue");
     let cp = document.getElementById("cp");
     let ville = document.getElementById("ville");
-
     let role = userRole;
-    console.log("role: ", role);
+    console.log(userRole);
     const token = localStorage.getItem("token");
 
     nom.value ? (nom = nom.value) : (nom = nom.placeholder);
@@ -77,8 +70,8 @@ const UserAdminForm = () => {
     rue.value ? (rue = rue.value) : (rue = rue.placeholder);
     cp.value ? (cp = cp.value) : (cp = cp.placeholder);
     ville.value ? (ville = ville.value) : (ville = ville.placeholder);
-    //appeler axios
-    configAxios
+    //appel axios
+    await configAxios
       .put(
         `users/${selectedUserId}`,
         {
@@ -98,8 +91,16 @@ const UserAdminForm = () => {
           },
         }
       )
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+      .then(() => {
+        configAxios
+          .get("users")
+          .then((response) => {
+            dispatch(getUsersList(response.data));
+            navigate("/adminUsers", { replace: true });
+          })
+          .catch(() => console.log("ça commence à me faire chier!"));
+      })
+      .catch(() => console.log("c'est quoi cette embrouille"));
   };
 
   /**************************************************/

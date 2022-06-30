@@ -20,6 +20,7 @@ const UsersList = () => {
               <th>cp</th>
               <th>ville</th>
               <th>email</th>
+              <th>role</th>
             </tr>
           </thead>
 

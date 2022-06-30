@@ -3,14 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { addSelection } from "../../../feature/users/selectedUserSlice";
 
 import { addRoles, deleteRoles } from "../../../feature/users/rolesSlice";
-import { useState } from "react";
 
 const UserRow = ({ user }) => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
   const usersList = useSelector((state) => state.usersList[0]);
-  const [paramsId, setParamsId] = useState();
 
   let rolesArray = [];
 
@@ -41,6 +39,7 @@ const UserRow = ({ user }) => {
       <td>{user.cp}</td>
       <td>{user.ville}</td>
       <td>{user.email}</td>
+      <td>{user.role}</td>
       <td>
         <input
           type="button"
@@ -49,7 +48,7 @@ const UserRow = ({ user }) => {
             let selectedId =
               e.target.parentElement.parentElement.firstChild.innerHTML;
             dispatch(addSelection(selectedId));
-            setParamsId(selectedId);
+
             modifier();
           }}
         />
