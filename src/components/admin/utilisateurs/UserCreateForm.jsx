@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useSelector } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getUsersList } from "../../../feature/users/usersListSlice";
 import configAxios from "../../../config/configAxios";
 
 const UserCreateForm = () => {
   let navigate = useNavigate();
+  let dispatch = useDispatch();
   const listRoles = useSelector((state) => state.roles);
   const [userRole, setUserRole] = useState("abonne");
   const handle = (event) => {
@@ -15,6 +17,7 @@ const UserCreateForm = () => {
   };
   /******* Validation *******************************/
   //TO DO
+  //remettre à jour la liste des utilisateurs
 
   //3- appeler axios: route = post("/signup")
   const createUser = () => {
@@ -48,7 +51,15 @@ const UserCreateForm = () => {
           role: role,
           password: password,
         })
-        .then((response) => console.log(response))
+        .then(() => {
+          configAxios
+            .get("users")
+            .then((response) => {
+              dispatch(getUsersList(response.data));
+              retour();
+            })
+            .catch(() => console.log("ça commence à me faire chier!"));
+        })
         .catch((err) => console.log(err));
     }
   };
