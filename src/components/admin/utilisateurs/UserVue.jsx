@@ -1,9 +1,9 @@
-import UserAdminForm from "./UserAdminForm";
+import UserUpdateForm from "./UserUpdateForm";
 
 const UserVue = () => {
   return (
     <div>
-      <UserAdminForm />
+      <UserUpdateForm />
     </div>
   );
 };

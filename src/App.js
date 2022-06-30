@@ -7,6 +7,7 @@ import Login from "./components/User/Login";
 import AdminAccueil from "./components/admin/AdminAccueil";
 import UsersList from "./components/admin/utilisateurs/UsersList";
 import UserVue from "./components/admin/utilisateurs/UserVue";
+import UserCreateForm from "./components/admin/utilisateurs/UserCreateForm";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/administration" element={<AdminAccueil />} />
             <Route path="/adminUsers" element={<UsersList />} />
             <Route path="/userupdate" element={<UserVue />} />
+            <Route path="/usercreate" element={<UserCreateForm />} />
           </Routes>
         </div>
       </Router>

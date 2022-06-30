@@ -40,7 +40,7 @@ const UserRow = ({ user }) => {
       <td>{user.ville}</td>
       <td>{user.email}</td>
       <td>{user.role}</td>
-      <td>
+      <td id="actions">
         <input
           type="button"
           value="modifier"

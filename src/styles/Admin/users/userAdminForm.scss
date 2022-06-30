@@ -40,5 +40,10 @@
         background-color: rgb(196, 69, 69);
       }
     }
+    & label {
+      & span {
+        color: red;
+      }
+    }
   }
 }

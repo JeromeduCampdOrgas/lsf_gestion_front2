@@ -14,7 +14,7 @@ import configAxios from "../../../config/configAxios";
 /*********  CSS **************/
 import "../../../styles/Admin/users/userAdminForm.scss";
 
-const UserAdminForm = () => {
+const UserUpdateForm = () => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
@@ -211,4 +211,4 @@ const UserAdminForm = () => {
     </Provider>
   );
 };
-export default UserAdminForm;
+export default UserUpdateForm;

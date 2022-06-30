@@ -1,8 +1,13 @@
+h1 {
+  margin: 10px 10px;
+}
+
 table {
   border-collapse: collapse;
+  margin: 10px 10px;
   width: 100%;
   & td {
-    padding: 3px;
+    padding: 5px;
   }
 }
 thead tr {
@@ -12,4 +17,11 @@ table,
 th,
 td {
   border: 1px solid;
+}
+#actions {
+  display: flex;
+  & input {
+    margin: auto;
+    padding: 5px;
+  }
 }
