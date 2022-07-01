@@ -15,6 +15,7 @@ import userReducer from "../feature/users/userSlice";
 import usersListReducer from "../feature/users/usersListSlice";
 import selectedUserReducer from "../feature/users/selectedUserSlice";
 import selectedUserDataReducer from "../feature/users/selectedUserDataSlice";
+import deleteModalReducer from "../feature/users/deleteModalSlice";
 
 import rolesReducer from "../feature/users/rolesSlice";
 
@@ -29,6 +30,7 @@ const reducers = combineReducers({
   selectedUser: selectedUserReducer,
   selectedUserData: selectedUserDataReducer,
   roles: rolesReducer,
+  deleteModal: deleteModalReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

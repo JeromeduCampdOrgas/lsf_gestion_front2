@@ -1,31 +1,17 @@
 import userImg from "../../../assets/images/utilisateurs/users.jpg";
 import "../../../styles/Admin/users/users.scss";
-import { addRoles } from "../../../feature/users/rolesSlice";
+
 import { Link } from "react-router-dom";
 import configAxios from "../../../config/configAxios";
 
 //Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUsersList } from "../../../feature/users/usersListSlice";
 
 const UserCard = () => {
-  const usersList = useSelector((state) => state.usersList[0]);
-  let rolesArray = [];
   const dispatch = useDispatch();
-  const getRoles = () => {
-    for (let i = 0; i < usersList.length; i++) {
-      let role = usersList[i].role;
-      if (!rolesArray.includes(role)) {
-        rolesArray.push(role);
-      }
-    }
-
-    //dispatch de la liste des rôles dans le store
-    dispatch(addRoles(rolesArray));
-  };
 
   const getAllUsers = () => {
-    getRoles();
     configAxios
       .get("users")
       .then((response) => {

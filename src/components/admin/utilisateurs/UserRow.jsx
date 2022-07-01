@@ -1,15 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addSelection } from "../../../feature/users/selectedUserSlice";
+import { displayModal } from "../../../feature/users/deleteModalSlice";
 
 import { addRoles, deleteRoles } from "../../../feature/users/rolesSlice";
+import { useState } from "react";
 
 const UserRow = ({ user }) => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
   const usersList = useSelector((state) => state.usersList[0]);
-
+  const [openModal, setOpenModal] = useState(false);
   let rolesArray = [];
 
   const modifier = () => {
@@ -52,7 +54,18 @@ const UserRow = ({ user }) => {
             modifier();
           }}
         />
-        <input type="button" value="supprimer" />
+
+        <button
+          onClick={(e) => {
+            let selectedId =
+              e.target.parentElement.parentElement.firstChild.innerHTML;
+            dispatch(addSelection(selectedId));
+            setOpenModal(true);
+            dispatch(displayModal(openModal));
+          }}
+        >
+          Supprimer
+        </button>
       </td>
     </tr>
   );

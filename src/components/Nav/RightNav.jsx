@@ -1,4 +1,3 @@
-/****** Modules **********/
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 //import { store, deleteConnexion } from "../../redux/user/userSlice";
@@ -22,7 +21,6 @@ const Ul = styled.ul`
   li {
     padding: 18px 10px;
   }
-
   @media (max-width: 768px) {
     flex-flow: column nowrap;
     background-color: #0d2538;

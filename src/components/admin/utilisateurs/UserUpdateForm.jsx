@@ -59,9 +59,9 @@ const UserUpdateForm = () => {
     let cp = document.getElementById("cp");
     let ville = document.getElementById("ville");
     let role = userRole;
-    console.log(userRole);
-    const token = localStorage.getItem("token");
 
+    const token = localStorage.getItem("token");
+    console.log({ token });
     nom.value ? (nom = nom.value) : (nom = nom.placeholder);
     prenom.value ? (prenom = prenom.value) : (prenom = prenom.placeholder);
     email.value ? (email = email.value) : (email = email.placeholder);
