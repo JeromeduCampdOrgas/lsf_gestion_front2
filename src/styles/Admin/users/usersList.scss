@@ -1,5 +1,6 @@
 h1 {
-  margin: 10px 10px;
+  margin: 10px auto;
+  text-align: center;
 }
 
 table {
@@ -20,8 +21,36 @@ td {
 }
 #actions {
   display: flex;
+  background: grey;
+}
+.btn {
+  margin: auto;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+}
+#btn-update {
+  background: rgb(89, 89, 227);
+}
+#btn-delete {
+  background: rgb(221, 84, 84);
+}
+#btn-add {
+  margin: 10px 10px;
+  background: #08ad2e;
+}
+#search-div {
+  border-top: 1px lightgrey solid;
+  border-bottom: 1px lightgrey solid;
+  margin: 10px 10px;
+  padding: 20px;
+  & span {
+    padding: 10px;
+    font-weight: bold;
+  }
   & input {
-    margin: auto;
     padding: 5px;
   }
 }

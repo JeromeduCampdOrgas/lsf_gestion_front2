@@ -5,11 +5,22 @@ import { useNavigate } from "react-router-dom";
 import UserRow from "../utilisateurs/UserRow";
 import "../../../styles/Admin/users/usersList.scss";
 import UserDeleteAccountModal from "../../../components/admin/utilisateurs/UserDeleteAccountModal";
+import { useState, useEffect } from "react";
+
+import UserSearch from "../../admin/utilisateurs/UserSearch";
 
 const UsersList = ({ openModal }) => {
   let navigate = useNavigate();
   const allUsers = useSelector((state) => state.usersList[0]);
   const displayModal = useSelector((state) => state.deleteModal);
+  /******************** */
+  const [userSearch, setUserSearch] = useState();
+  useEffect(() => {
+    if (allUsers) {
+      setUserSearch(allUsers);
+    }
+  }, [allUsers]);
+  /******************** */
 
   return (
     <Provider store={store}>
@@ -17,34 +28,15 @@ const UsersList = ({ openModal }) => {
         <div>
           <h1>Utilisateurs</h1>
           <p>
-            <input
-              type="button"
-              value="Ajouter un utilisateur"
+            <button
+              className="btn"
+              id="btn-add"
               onClick={() => navigate(`/usercreate`, { replace: true })}
-            />
+            >
+              Ajouter un utilisateur
+            </button>
           </p>
-          <table>
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>nom</th>
-                <th>prénom</th>
-                <th>n°rue</th>
-                <th>rue</th>
-                <th>cp</th>
-                <th>ville</th>
-                <th>email</th>
-                <th>role</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {allUsers?.map((user) => (
-                <UserRow key={user.id} user={user} />
-              ))}
-            </tbody>
-          </table>
+          <UserSearch />
         </div>
       ) : (
         <div>

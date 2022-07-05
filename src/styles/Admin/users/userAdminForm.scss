@@ -1,6 +1,10 @@
+#login-form {
+  margin: auto;
+}
 #user-admin-form {
   display: flex;
   flex-direction: column;
+  margin: auto;
 
   & H1,
   form {
@@ -11,7 +15,8 @@
     flex-direction: column;
     margin-top: 50px;
     width: 30%;
-    background-color: rgb(127, 127, 225);
+    background-color: #eee;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 20px;
     border-radius: 15px;
     & .user-info {
@@ -25,7 +30,7 @@
       display: flex;
       justify-content: space-between;
       width: 60%;
-      margin: 50px auto;
+      margin: 30px auto;
 
       & .btn {
         padding: 10px;
@@ -34,10 +39,10 @@
         font-weight: bold;
       }
       & #btn-valid {
-        background-color: green;
+        background-color: #08ad2e;
       }
       & #btn-escape {
-        background-color: rgb(196, 69, 69);
+        background-color: rgb(221, 84, 84);
       }
     }
     & label {

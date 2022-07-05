@@ -1,0 +1,50 @@
+#form-container {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  width: 100%;
+
+  & #login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    width: 40%;
+    //background-color: rgb(127, 127, 225);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 15px;
+
+    & input {
+      padding: 3px;
+      margin: 10px auto;
+    }
+    & .btn {
+      width: 20%;
+      margin-top: 25px;
+    }
+    & div {
+      width: 80%;
+      text-align: center;
+      background-color: rgb(127, 127, 225);
+      border-radius: 15px;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      & span {
+        padding: 10px;
+      }
+      & .btn {
+        background-color: #08ad2e;
+        border: none;
+      }
+    }
+    @media (max-width: 768px) {
+      width: 90%;
+      margin: auto;
+
+      .btn {
+        width: 45%;
+        background-color: red;
+      }
+    }
+  }
+}
