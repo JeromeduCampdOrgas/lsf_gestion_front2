@@ -1,11 +1,16 @@
-h1 {
-  margin: 10px auto;
-  text-align: center;
+#title {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  & h1 {
+    margin-left: 25%;
+    text-align: center;
+  }
 }
 
 table {
   border-collapse: collapse;
-  margin: 10px 10px;
+  margin: 10px 0;
   width: 100%;
   & td {
     padding: 5px;
@@ -38,7 +43,7 @@ td {
   background: rgb(221, 84, 84);
 }
 #btn-add {
-  margin: 10px 10px;
+  margin: 10px 30px;
   background: #08ad2e;
 }
 #search-div {

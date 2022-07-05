@@ -25,12 +25,13 @@ const UserUpdateForm = () => {
 
   const [userRole, setUserRole] = useState();
   useEffect(() => {
+    console.log(listRoles);
     const userData = usersList.filter(
       (user) => user.id === parseInt(selectedUserId)
     );
     setUserRole(userData[0].role);
     dispatch(addUserData(userData));
-  }, [dispatch, selectedUserId, usersList]);
+  }, [dispatch, selectedUserId, usersList, listRoles]);
 
   /********** Annulation action et retour page users administration ******/
   //Remise à zero du store
@@ -179,7 +180,7 @@ const UserUpdateForm = () => {
                 value={userRole}
                 onChange={handle}
               >
-                {listRoles[0].map((role) => (
+                {listRoles[0]?.map((role) => (
                   <option key={role} value={role}>
                     {role}
                   </option>

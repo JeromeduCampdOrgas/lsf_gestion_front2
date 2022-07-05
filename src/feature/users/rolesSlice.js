@@ -6,6 +6,7 @@ export const rolesSlice = createSlice({
   reducers: {
     addRoles: (state, { payload }) => {
       state.push(payload);
+      return state;
     },
     deleteRoles: (state, action) => {
       state = state.splice(0, 1);
