@@ -47,6 +47,9 @@ const UserUpdateForm = () => {
   const handle = (event) => {
     setUserRole(event.target.value);
   };
+  const handleValue = (event) => {
+    event.target.value = event.target.placeholder;
+  };
   /******** Validation des modifications ***********/
 
   const validation = async () => {
@@ -118,6 +121,7 @@ const UserUpdateForm = () => {
                 id="nom"
                 type="text"
                 placeholder={selectedUserData[0].nom}
+                onFocus={handleValue}
               />
             </label>
             <label className="user-info" htmlFor="prenom">
@@ -126,6 +130,7 @@ const UserUpdateForm = () => {
                 id="prenom"
                 type="text"
                 placeholder={selectedUserData[0].prenom}
+                onFocus={handleValue}
               />
             </label>
             <label className="user-info" htmlFor="email">
@@ -134,6 +139,7 @@ const UserUpdateForm = () => {
                 id="email"
                 type="text"
                 placeholder={selectedUserData[0].email}
+                onFocus={handleValue}
               />
             </label>
             <label className="user-info" htmlFor="tel">
@@ -142,6 +148,7 @@ const UserUpdateForm = () => {
                 id="tel"
                 type="text"
                 placeholder={selectedUserData[0].tel}
+                onFocus={handleValue}
               />
             </label>
             <label className="user-info" htmlFor="n_rue">
@@ -150,6 +157,7 @@ const UserUpdateForm = () => {
                 id="n_rue"
                 type="text"
                 placeholder={selectedUserData[0].n_rue}
+                onFocus={handleValue}
               />
             </label>
             <label className="user-info" htmlFor="rue">
@@ -158,11 +166,17 @@ const UserUpdateForm = () => {
                 id="rue"
                 type="text"
                 placeholder={selectedUserData[0].rue}
+                onFocus={handleValue}
               />
             </label>
             <label className="user-info" htmlFor="cp">
               Code postal:
-              <input id="cp" type="text" placeholder={selectedUserData[0].cp} />
+              <input
+                id="cp"
+                type="text"
+                placeholder={selectedUserData[0].cp}
+                onFocus={handleValue}
+              />
             </label>
             <label className="user-info" htmlFor="ville">
               Commune:
@@ -170,6 +184,7 @@ const UserUpdateForm = () => {
                 id="ville"
                 type="text"
                 placeholder={selectedUserData[0].ville}
+                onFocus={handleValue}
               />
             </label>
             <label className="user-info" htmlFor="roles">

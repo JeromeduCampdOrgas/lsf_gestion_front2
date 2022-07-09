@@ -26,11 +26,10 @@ const UserRow = ({ user }) => {
       <td>{user.email}</td>
       <td>{user.role}</td>
       <td id="actions">
-        <input
+        <button
           className="btn"
           id="btn-update"
           type="button"
-          value="modifier"
           onClick={(e) => {
             let selectedId =
               e.target.parentElement.parentElement.firstChild.innerHTML;
@@ -38,7 +37,9 @@ const UserRow = ({ user }) => {
 
             modifier();
           }}
-        />
+        >
+          Modifier
+        </button>
 
         <button
           className="btn"

@@ -48,7 +48,7 @@ const Login = () => {
     <Signin />
   ) : (
     <div id="form-container">
-      <form id="login-form" signed={signed} setSigne={setSigned}>
+      <form id="login-form">
         <input id="email" type="text" placeholder="votre email" />
         <input id="password" type="password" placeholder="mot de passe" />
         <input

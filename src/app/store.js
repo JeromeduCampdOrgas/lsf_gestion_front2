@@ -10,14 +10,19 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-
+/******** Users */
 import userReducer from "../feature/users/userSlice";
 import usersListReducer from "../feature/users/usersListSlice";
 import selectedUserReducer from "../feature/users/selectedUserSlice";
 import selectedUserDataReducer from "../feature/users/selectedUserDataSlice";
 import deleteModalReducer from "../feature/users/deleteModalSlice";
-
 import rolesReducer from "../feature/users/rolesSlice";
+
+/******** Refuges ***/
+import refugesListReducer from "../feature/refuges/refugesListSlice";
+import selectedRefugeReducer from "../feature/refuges/selectedRefugeSlice";
+import selectedRefugeDataReducer from "../feature/refuges/selectedRefugeDataSlice";
+import refugeSelectedGeoReducer from "../feature/refuges/refugeSelectedGeoSlice";
 
 const persistConfig = {
   key: "user",
@@ -25,12 +30,18 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
+  /*** users */
   user: userReducer,
   usersList: usersListReducer,
   selectedUser: selectedUserReducer,
   selectedUserData: selectedUserDataReducer,
   roles: rolesReducer,
   deleteModal: deleteModalReducer,
+  /*** refuges */
+  refugesList: refugesListReducer,
+  selectedRefuge: selectedRefugeReducer,
+  selectedRefugeData: selectedRefugeDataReducer,
+  refugeSelectedGeo: refugeSelectedGeoReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -5,9 +5,13 @@ import Home from "./components/Layout/Home";
 import Login from "./components/User/Login";
 
 import AdminAccueil from "./components/admin/AdminAccueil";
+/** Admin Users  */
 import UsersList from "./components/admin/utilisateurs/UsersList";
 import UserVue from "./components/admin/utilisateurs/UserVue";
 import UserCreateForm from "./components/admin/utilisateurs/UserCreateForm";
+/**** Admin Refuges */
+import RefugesList from "./components/admin/refuges/RefugesList";
+import RefugeUpdateForm from "./components/admin/refuges/RefugeUpdateForm";
 
 function App() {
   return (
@@ -22,6 +26,8 @@ function App() {
             <Route path="/adminUsers" element={<UsersList />} />
             <Route path="/userupdate" element={<UserVue />} />
             <Route path="/usercreate" element={<UserCreateForm />} />
+            <Route path="/adminRefuges" element={<RefugesList />} />
+            <Route path="/refugeupdate" element={<RefugeUpdateForm />} />
           </Routes>
         </div>
       </Router>

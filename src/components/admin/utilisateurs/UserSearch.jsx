@@ -11,7 +11,7 @@ const UserSearch = () => {
   const usersList = useSelector((state) => state.usersList[0]);
   const [searchType, setSearchType] = useState("nom");
   const listRoles = useSelector((state) => state.roles);
-  const [userRole, setUserRole] = useState("delegue");
+  const [userRole, setUserRole] = useState("tous");
   const handle = (event) => {
     setUserRole(event.target.value);
   };
@@ -25,31 +25,37 @@ const UserSearch = () => {
   };
   useEffect(() => {
     let listeFiltree;
-    if (usersList) {
-      switch (searchType) {
-        case "nom":
-          listeFiltree = usersList.filter(
-            (user) =>
-              user.role === userRole &&
-              user.nom.toLowerCase().includes(searchState)
-          );
-          break;
-        case "prenom":
-          listeFiltree = usersList.filter(
-            (user) =>
-              user.role === userRole &&
-              user.prenom.toLowerCase().includes(searchState)
-          );
-          break;
-        case "cp":
-          listeFiltree = usersList.filter(
-            (user) =>
-              user.role === userRole && parseInt(user.cp).includes(searchState)
-          );
-          break;
 
-        default:
-          console.log(`Sorry, we are out of ${searchType}.`);
+    if (usersList) {
+      if (userRole === "tous") {
+        listeFiltree = usersList.filter((user) => user.role !== "tous");
+      } else {
+        switch (searchType) {
+          case "nom":
+            listeFiltree = usersList.filter(
+              (user) =>
+                user.role === userRole &&
+                user.nom.toLowerCase().includes(searchState)
+            );
+            break;
+          case "prenom":
+            listeFiltree = usersList.filter(
+              (user) =>
+                user.role === userRole &&
+                user.prenom.toLowerCase().includes(searchState)
+            );
+            break;
+          case "cp":
+            listeFiltree = usersList.filter(
+              (user) =>
+                user.role === userRole &&
+                parseInt(user.cp).includes(searchState)
+            );
+            break;
+
+          default:
+            console.log(`Sorry, we are out of ${searchType}.`);
+        }
       }
     }
     setFinalList(listeFiltree);

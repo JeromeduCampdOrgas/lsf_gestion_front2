@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+/***** Users  */
 import { deleteConnexion } from "../../feature/users/userSlice";
 import { deleteUsersList } from "../../feature/users/usersListSlice";
 import { deleteUserData } from "../../feature/users/selectedUserDataSlice";
 import { deleteSelection } from "../../feature/users/selectedUserSlice";
 import { deleteRoles } from "../../feature/users/rolesSlice";
+/**** Refuges */
+import { deleteRefugesList } from "../../feature/refuges/refugesListSlice";
+import { deleteSelectedRefuge } from "../../feature/refuges/selectedRefugeSlice";
+import { deleteRefugeGeo } from "../../feature/refuges/refugeSelectedGeoSlice";
+import { deleteRefugeData } from "../../feature/refuges/selectedRefugeDataSlice";
 
 import store from "../../app/store.js";
 
@@ -50,10 +55,12 @@ const RightNav = ({ open }, { setopen }) => {
     dispatch(deleteConnexion(0));
     dispatch(deleteUsersList());
     dispatch(deleteSelection());
-
     dispatch(deleteUserData());
-
     dispatch(deleteRoles());
+    dispatch(deleteRefugesList());
+    dispatch(deleteRefugeData());
+    dispatch(deleteSelectedRefuge());
+    dispatch(deleteRefugeGeo());
   };
 
   /****** Connexion */

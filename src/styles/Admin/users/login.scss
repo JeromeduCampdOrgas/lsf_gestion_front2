@@ -19,21 +19,24 @@
       margin: 10px auto;
     }
     & .btn {
+      background: green;
       width: 20%;
+      padding: 10px;
       margin-top: 25px;
     }
     & div {
       width: 80%;
       text-align: center;
-      background-color: rgb(127, 127, 225);
+      background-color: rgb(150, 150, 225);
       border-radius: 15px;
       margin-top: 25px;
       margin-bottom: 25px;
       & span {
+        font-weight: bold;
         padding: 10px;
       }
       & .btn {
-        background-color: #08ad2e;
+        background-color: green;
         border: none;
       }
     }
