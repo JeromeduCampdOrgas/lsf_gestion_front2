@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux/es/exports";
 import "../../../styles/Admin/refuges/refugesMap.scss";
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 const RefugesMap = () => {
   const refugesList = useSelector((state) => state.refugesList);
   console.log(refugesList);
@@ -19,7 +19,9 @@ const RefugesMap = () => {
           <Marker
             key={refuge.id}
             position={[refuge.latitude, refuge.longitude]}
-          ></Marker>
+          >
+            <Popup>{refuge.nom}</Popup>
+          </Marker>
         );
       })}
     </MapContainer>

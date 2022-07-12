@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addSelection } from "../../../feature/users/selectedUserSlice";
-import { displayModal } from "../../../feature/users/deleteModalSlice";
+import { showModal } from "../../../feature/users/deleteModalSlice";
 import { useState } from "react";
 
 const UserRow = ({ user }) => {
@@ -49,7 +49,7 @@ const UserRow = ({ user }) => {
               e.target.parentElement.parentElement.firstChild.innerHTML;
             dispatch(addSelection(selectedId));
             setOpenModal(true);
-            dispatch(displayModal(openModal));
+            dispatch(showModal(openModal));
           }}
         >
           Supprimer

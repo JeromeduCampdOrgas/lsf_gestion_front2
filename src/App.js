@@ -12,6 +12,7 @@ import UserCreateForm from "./components/admin/utilisateurs/UserCreateForm";
 /**** Admin Refuges */
 import RefugesList from "./components/admin/refuges/RefugesList";
 import RefugeUpdateForm from "./components/admin/refuges/RefugeUpdateForm";
+import RefugeCreateForm from "./components/admin/refuges/RefugeCreateForm";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/usercreate" element={<UserCreateForm />} />
             <Route path="/adminRefuges" element={<RefugesList />} />
             <Route path="/refugeupdate" element={<RefugeUpdateForm />} />
+            <Route path="/refugecreate" element={<RefugeCreateForm />} />
           </Routes>
         </div>
       </Router>

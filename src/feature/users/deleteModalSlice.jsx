@@ -4,7 +4,7 @@ export const deleteModalSlice = createSlice({
   name: "deleteModal",
   initialState: false,
   reducers: {
-    displayModal: (state, action) => {
+    showModal: (state, action) => {
       state = true;
       return state;
     },
@@ -15,5 +15,5 @@ export const deleteModalSlice = createSlice({
   },
 });
 
-export const { displayModal, hideModal } = deleteModalSlice.actions;
+export const { showModal, hideModal } = deleteModalSlice.actions;
 export default deleteModalSlice.reducer;

@@ -6,7 +6,7 @@ const HeaderStyle = styled.header`
   width: 100%;
   text-align: center;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
 `;
 
 const Header = () => {
