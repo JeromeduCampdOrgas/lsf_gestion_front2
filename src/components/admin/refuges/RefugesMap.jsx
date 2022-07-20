@@ -3,7 +3,7 @@ import "../../../styles/Admin/refuges/refugesMap.scss";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 const RefugesMap = () => {
   const refugesList = useSelector((state) => state.refugesList);
-  console.log(refugesList);
+
   return (
     <MapContainer
       center={[40.4167754, -3.7037902]}
@@ -20,7 +20,16 @@ const RefugesMap = () => {
             key={refuge.id}
             position={[refuge.latitude, refuge.longitude]}
           >
-            <Popup>{refuge.nom}</Popup>
+            <Popup className="popup">
+              {refuge.nom}
+              <div className="popup-img">
+                <img
+                  src={refuge.logo}
+                  alt={refuge.nom}
+                  crossOrigin="anonymous"
+                />
+              </div>
+            </Popup>
           </Marker>
         );
       })}

@@ -35,15 +35,20 @@ const RefugeUpdateForm = () => {
   const refugesList = useSelector((state) => state.refugesList[0]);
   const selectedRefugeId = useSelector((state) => state.selectedRefuge);
   const selectedRefugeData = useSelector((state) => state.selectedRefugeData);
-  const refugeSelectedGeo = useSelector((state) => state.refugeSelectedGeo);
+  //const refugeSelectedGeo = useSelector((state) => state.refugeSelectedGeo);
   /******************** */
+  const [logoImg, setLogoImg] = useState();
+  const [refugeLat, setRefugeLat] = useState();
+  const [refugeLong, setRefugeLong] = useState();
   useEffect(() => {
     const refugeData = refugesList.filter(
       (refuge) => refuge.id === parseInt(selectedRefugeId)
     );
     dispatch(addRefugeData(refugeData));
-
     setQueryValue(refugeData[0].nom);
+    setLogoImg(refugeData[0].logo);
+    setRefugeLat(refugeData[0].latitude);
+    setRefugeLong(refugeData[0].longitude);
   }, [dispatch, selectedRefugeId, refugesList]);
 
   /********** Annulation action et retour page users administration ******/
@@ -59,54 +64,55 @@ const RefugeUpdateForm = () => {
   const handleValue = (event) => {
     event.target.value = event.target.placeholder;
   };
+
   /******** Validation des modifications ***********/
 
   const validation = async () => {
     //Récupération valeur ou placeholder
     let nom = document.getElementById("nom");
     let localite = document.getElementById("localite");
+    let latitude = refugeLat;
+    let longitude = refugeLong;
 
     const token = localStorage.getItem("token");
     nom.value ? (nom = nom.value) : (nom = nom.placeholder);
     localite.value
-      ? (localite = localite.value)
-      : (localite = localite.placeholder);
+      ? (localite = localite.value) && (latitude = refugeLat)
+      : (localite = localite.placeholder) && (longitude = refugeLong);
 
     //appel axios
     await axios
       .get("http://api.positionstack.com/v1/forward", { params })
       .then((response) => {
-        console.log(
-          response.data.data.filter((refuge) => refuge.country === "Spain")
-        );
         const searchingGeo = response.data.data.filter(
           (refuge) => refuge.country === "Spain"
         );
-        console.log(searchingGeo);
-        dispatch(addRefugeGeo(searchingGeo));
+        if (searchingGeo[0]) {
+          dispatch(addRefugeGeo(searchingGeo[0]));
+          setRefugeLat(searchingGeo[0].latitude);
+          setRefugeLong(searchingGeo[0].longitude);
+          latitude = searchingGeo[0].latitude;
+          longitude = searchingGeo[0].longitude;
+        } else {
+          latitude = refugeLat;
+          longitude = refugeLong;
+        }
       })
 
       .then(() => {
-        let latitude = refugeSelectedGeo[0].latitude;
-        console.log(latitude);
+        const formData = new FormData();
+        formData.set("nom", nom);
+        formData.set("localite", localite);
+        formData.set("logo", logoImg);
+        formData.set("latitude", latitude);
+        formData.set("longitude", longitude);
 
-        let longitude = refugeSelectedGeo[0].longitude;
-        console.log(longitude);
         configAxios
-          .put(
-            `refuge/${selectedRefugeId}`,
-            {
-              nom: nom,
-              localite: localite,
-              latitude: latitude,
-              longitude: longitude,
+          .put(`refuge/${selectedRefugeId}`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
             },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
+          })
           .then(() => {
             configAxios
               .get(`refuges`)
@@ -145,6 +151,14 @@ const RefugeUpdateForm = () => {
                 placeholder={selectedRefugeData[0].localite}
                 onFocus={handleValue}
                 onChange={(e) => setQueryValue(e.target.value)}
+              />
+            </label>
+            <label className="user-info" htmlFor="logo">
+              Logo:
+              <input
+                id="logo"
+                type="file"
+                onChange={(e) => setLogoImg(e.target.files)}
               />
             </label>
 

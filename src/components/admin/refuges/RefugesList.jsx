@@ -70,7 +70,7 @@ const RefugesList = () => {
             </div>
           ) : (
             <div>
-              <div className="modalMapBackground" onClick={() => closeModal()}>
+              <div className="modalMapBackground">
                 <div className="modalMapContainer">
                   <div className="titleCloseBtn">
                     <button onClick={() => closeModal()}>X</button>

@@ -31,7 +31,7 @@ const RefugeCreateForm = () => {
     //récupérer la localité
     let localite = document.getElementById("localite").value;
     //2- vérifier les champs obligatoires
-    if (!nom || !localite) {
+    if (!nom || !localite || !logoFile) {
       console.log("mentions obligatoires");
     } else {
       //3- Récupérer les coordonnée GPS
@@ -86,14 +86,6 @@ const RefugeCreateForm = () => {
             type="text"
             onChange={(e) => setQueryValue(e.target.value)}
           />
-        </label>
-        <label className="refuge-info" htmlFor="latitude">
-          Latitude:
-          <input id="latitude" type="text" />
-        </label>
-        <label className="refuge-info" htmlFor="longitude">
-          Longitude:
-          <input id="longitude" type="text" />
         </label>
 
         <div id="buttons">
