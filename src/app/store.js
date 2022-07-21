@@ -23,6 +23,7 @@ import refugesListReducer from "../feature/refuges/refugesListSlice";
 import selectedRefugeReducer from "../feature/refuges/selectedRefugeSlice";
 import selectedRefugeDataReducer from "../feature/refuges/selectedRefugeDataSlice";
 import refugeSelectedGeoReducer from "../feature/refuges/refugeSelectedGeoSlice";
+import deleteRefugeModalReducer from "../feature/refuges/deleteRefugeModalSlice";
 
 const persistConfig = {
   key: "user",
@@ -42,6 +43,7 @@ const reducers = combineReducers({
   selectedRefuge: selectedRefugeReducer,
   selectedRefugeData: selectedRefugeDataReducer,
   refugeSelectedGeo: refugeSelectedGeoReducer,
+  deleteRefugeModal: deleteRefugeModalReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

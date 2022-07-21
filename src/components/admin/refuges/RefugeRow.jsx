@@ -1,16 +1,18 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addSelectedRefuge } from "../../../feature/refuges/selectedRefugeSlice";
+import { showRefugeDeleteModal } from "../../../feature/refuges/deleteRefugeModalSlice";
 
 const RefugeRow = ({ refuge }) => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
-  //const [openModal, setOpenModal] = useState(false);
-
+  const [openModal, setOpenModal] = useState(false);
   const modifier = () => {
     navigate(`/refugeupdate`, { replace: true });
   };
+
   return (
     <tr>
       <td className="id">{refuge.id}</td>
@@ -42,8 +44,12 @@ const RefugeRow = ({ refuge }) => {
         <button
           className="btn"
           id="btn-delete"
-          onClick={() => {
-            console.log("je delete");
+          onClick={(e) => {
+            let selectedId =
+              e.target.parentElement.parentElement.firstChild.innerHTML;
+            dispatch(addSelectedRefuge(selectedId));
+            setOpenModal(true);
+            dispatch(showRefugeDeleteModal(openModal));
           }}
         >
           Supprimer
