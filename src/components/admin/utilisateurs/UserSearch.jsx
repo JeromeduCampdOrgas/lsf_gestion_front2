@@ -12,53 +12,68 @@ const UserSearch = () => {
   const [searchType, setSearchType] = useState("nom");
   const listRoles = useSelector((state) => state.roles);
   const [userRole, setUserRole] = useState("tous");
-  const handle = (event) => {
+  /********************** */
+  const handleChangeRole = (event) => {
     setUserRole(event.target.value);
   };
-  /********************** */
 
-  const searching = (event) => {
-    setSearchState(event.target.value.toLowerCase());
-  };
   const handleChangeRadio = (event) => {
+    console.log(event.target.value);
     setSearchType(event.target.value);
   };
   useEffect(() => {
-    let listeFiltree;
-
+    let listeTriee;
     if (usersList) {
-      if (userRole === "tous") {
-        listeFiltree = usersList.filter((user) => user.role !== "tous");
-      } else {
-        switch (searchType) {
-          case "nom":
-            listeFiltree = usersList.filter(
+      switch (searchType) {
+        case "nom":
+          if (userRole === "tous") {
+            listeTriee = usersList.filter(
+              (user) =>
+                user.role !== "test" &&
+                user.nom.toLowerCase().includes(searchState)
+            );
+          } else {
+            listeTriee = usersList.filter(
               (user) =>
                 user.role === userRole &&
                 user.nom.toLowerCase().includes(searchState)
             );
-            break;
-          case "prenom":
-            listeFiltree = usersList.filter(
+          }
+          break;
+        case "prenom":
+          if (userRole === "tous") {
+            listeTriee = usersList.filter(
+              (user) =>
+                user.role !== "test" &&
+                user.prenom.toLowerCase().includes(searchState)
+            );
+          } else {
+            listeTriee = usersList.filter(
               (user) =>
                 user.role === userRole &&
                 user.prenom.toLowerCase().includes(searchState)
             );
-            break;
-          case "cp":
-            listeFiltree = usersList.filter(
+          }
+          break;
+        case "cp":
+          if (userRole === "tous") {
+            listeTriee = usersList.filter(
               (user) =>
-                user.role === userRole &&
-                parseInt(user.cp).includes(searchState)
+                user.role !== "test" &&
+                user.cp.toLowerCase().includes(searchState)
             );
-            break;
-
-          default:
-            console.log(`Sorry, we are out of ${searchType}.`);
-        }
+          } else {
+            listeTriee = usersList.filter(
+              (user) => user.role === userRole && user.cp.includes(searchState)
+            );
+          }
+          break;
+        default:
+          console.log(`Sorry, we are out of ${searchType}.`);
       }
     }
-    setFinalList(listeFiltree);
+
+    setFinalList(listeTriee);
   }, [searchState, usersList, searchType, userRole]);
 
   /***************** */
@@ -66,6 +81,7 @@ const UserSearch = () => {
   return (
     <div id="search-div">
       <div id="searchBar-container">
+        {searchState}
         <div id="search-bar">
           Rechercher par
           <div>
@@ -75,7 +91,7 @@ const UserSearch = () => {
                 name="roles"
                 id="roles"
                 value={userRole}
-                onChange={handle}
+                onChange={handleChangeRole}
               >
                 {listRoles[0].map((role) => (
                   <option key={role} value={role}>
@@ -123,7 +139,9 @@ const UserSearch = () => {
           </fieldset>
           <input
             type="text"
-            onChange={searching}
+            onChange={(event) =>
+              setSearchState(event.target.value.toLowerCase())
+            }
             placeholder="Tapez votre recherche"
           />
         </div>
