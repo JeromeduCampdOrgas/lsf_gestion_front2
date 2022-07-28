@@ -11,9 +11,12 @@ import { deleteRefugesList } from "../../feature/refuges/refugesListSlice";
 import { deleteSelectedRefuge } from "../../feature/refuges/selectedRefugeSlice";
 import { deleteRefugeGeo } from "../../feature/refuges/refugeSelectedGeoSlice";
 import { deleteRefugeData } from "../../feature/refuges/selectedRefugeDataSlice";
+/**** Chiens */
+import { deleteChiensList } from "../../feature/chiens/chiensListSlice";
+import { deleteSelectedChien } from "../../feature/chiens/selectedChienSlice";
+import { deleteChienData } from "../../feature/chiens/selectedChienDataSlice";
 
 import store from "../../app/store.js";
-
 import { Provider, useSelector, useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
 import { useState } from "react";
@@ -61,6 +64,9 @@ const RightNav = ({ open }, { setopen }) => {
     dispatch(deleteRefugeData());
     dispatch(deleteSelectedRefuge());
     dispatch(deleteRefugeGeo());
+    dispatch(deleteChiensList());
+    dispatch(deleteChienData());
+    dispatch(deleteSelectedChien());
   };
 
   /****** Connexion */

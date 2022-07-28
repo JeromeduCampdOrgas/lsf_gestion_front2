@@ -1,5 +1,6 @@
 import UserCard from "./utilisateurs/UserCard";
 import RefugeCard from "./refuges/RefugeCard";
+import ChienCard from "./chiens/ChienCard";
 const AdminAccueil = () => {
   return (
     <div>
@@ -7,10 +8,10 @@ const AdminAccueil = () => {
       <div id="cards-menu">
         <UserCard />
         <RefugeCard />
+        <ChienCard />
       </div>
       <ul>
         <li>Gestion des chiens</li>
-        <li>Gestion des refuges</li>
       </ul>
     </div>
   );

@@ -1,28 +1,28 @@
 import "../../../styles/Admin/users/userDeleteAccountModal.scss";
-import { hideRefugeDeleteModal } from "../../../feature/refuges/deleteRefugeModalSlice";
+import { hideChienDeleteModal } from "../../../feature/chiens/deleteChienModalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import configAxios from "../../../config/configAxios";
 import { useNavigate } from "react-router-dom";
-import { getRefugesList } from "../../../feature/refuges/refugesListSlice";
+import { getChiensList } from "../../../feature/chiens/chiensListSlice";
 
-const RefugeDeleteModal = () => {
+const ChienDeleteModal = () => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
-  const selectedRefugeId = useSelector((state) => state.selectedRefuge);
+  const selectedChienId = useSelector((state) => state.selectedChien);
   const token = useSelector((state) => state.user);
 
   const closeModal = () => {
-    dispatch(hideRefugeDeleteModal(false));
+    dispatch(hideChienDeleteModal(false));
   };
   /*******  */
-  //`Refuges/delete/${selectedUserId}`
+  //`Chiens/delete/${selectedUserId}`
   const deleteValidation = async () => {
     //const token = localStorage.getItem("token");
-    let refugeId = parseInt(selectedRefugeId);
+    let chienId = parseInt(selectedChienId);
 
     //appel axios
     await configAxios
-      .delete(`refuge/${refugeId}`, {
+      .delete(`chien/${chienId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -31,8 +31,8 @@ const RefugeDeleteModal = () => {
         configAxios
           .get("refuges")
           .then((response) => {
-            dispatch(getRefugesList(response.data));
-            navigate("/adminRefuges", { replace: true });
+            dispatch(getChiensList(response.data));
+            navigate("/adminChiens", { replace: true });
           })
           .catch(() => console.log("ça commence à me faire chier!"));
       })
@@ -46,7 +46,7 @@ const RefugeDeleteModal = () => {
           <button onClick={() => closeModal()}>X</button>
         </div>
         <div className="title">
-          <h1>Etes-vous sûr de vouloir supprimer ce refuge?</h1>
+          <h1>Etes-vous sûr de vouloir supprimer cet utilisateur</h1>
         </div>
 
         <div className="footer">
@@ -59,4 +59,4 @@ const RefugeDeleteModal = () => {
     </div>
   );
 };
-export default RefugeDeleteModal;
+export default ChienDeleteModal;

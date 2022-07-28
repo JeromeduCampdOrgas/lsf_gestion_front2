@@ -1,0 +1,67 @@
+#chien-admin-form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+
+  & H1,
+  form {
+    margin: auto;
+  }
+  & form {
+    margin-top: 50px;
+    width: 60%;
+    background-color: #eee;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 20px;
+    border-radius: 15px;
+    & #selected-dog {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    & #selected-dog-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    & #selected-dog-img {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      & #dog-img {
+        height: 200px;
+      }
+    }
+    & .chien-info {
+      margin-bottom: 20px;
+      & input,
+      select {
+        margin-left: 50px;
+      }
+    }
+    & #buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 60%;
+      margin: 30px auto;
+
+      & .btn {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+      }
+      & #btn-valid {
+        background-color: #08ad2e;
+      }
+      & #btn-escape {
+        background-color: rgb(221, 84, 84);
+      }
+    }
+    & label {
+      & span {
+        color: red;
+      }
+    }
+  }
+}

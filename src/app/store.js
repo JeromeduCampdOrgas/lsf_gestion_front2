@@ -24,6 +24,11 @@ import selectedRefugeReducer from "../feature/refuges/selectedRefugeSlice";
 import selectedRefugeDataReducer from "../feature/refuges/selectedRefugeDataSlice";
 import refugeSelectedGeoReducer from "../feature/refuges/refugeSelectedGeoSlice";
 import deleteRefugeModalReducer from "../feature/refuges/deleteRefugeModalSlice";
+/******** Chiens ***/
+import chiensListReducer from "../feature/chiens/chiensListSlice";
+import selectedChienReducer from "../feature/chiens/selectedChienSlice";
+import selectedChienDataReducer from "../feature/chiens/selectedChienDataSlice";
+import deleteChienModalReducer from "../feature/chiens/deleteChienModalSlice";
 
 const persistConfig = {
   key: "user",
@@ -44,6 +49,11 @@ const reducers = combineReducers({
   selectedRefugeData: selectedRefugeDataReducer,
   refugeSelectedGeo: refugeSelectedGeoReducer,
   deleteRefugeModal: deleteRefugeModalReducer,
+  /*** chiens */
+  chiensList: chiensListReducer,
+  selectedChien: selectedChienReducer,
+  selectedChienData: selectedChienDataReducer,
+  deleteChienModal: deleteChienModalReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -18,7 +18,6 @@ const UserSearch = () => {
   };
 
   const handleChangeRadio = (event) => {
-    console.log(event.target.value);
     setSearchType(event.target.value);
   };
   useEffect(() => {
