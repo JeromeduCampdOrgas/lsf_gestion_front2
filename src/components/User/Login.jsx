@@ -38,7 +38,7 @@ const Login = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log("et encore une erreur", error);
         });
     } else {
       console.log("C'est tout vide");

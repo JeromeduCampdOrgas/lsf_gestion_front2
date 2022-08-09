@@ -1,5 +1,6 @@
 import Header from "./components/Header/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import store from "./app/store";
 
 import Home from "./components/Layout/Home";
 import Login from "./components/User/Login";
@@ -17,29 +18,40 @@ import RefugeCreateForm from "./components/admin/refuges/RefugeCreateForm";
 import ChiensList from "./components/admin/chiens/ChiensList";
 import ChienUpdateForm from "./components/admin/chiens/ChienUpdateForm";
 import ChienCreateForm from "./components/admin/chiens/ChienCreateForm";
+/****** Admin statuts */
+import Statuts from "./components/admin/chiens/Statut";
+import { Provider } from "react-redux";
+/****** Global Display */
+import Chiens from "./components/globalDisplay/chiens/Chiens";
 
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Header />
-        <div id="main">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/connexion" element={<Login />} />
-            <Route path="/administration" element={<AdminAccueil />} />
-            <Route path="/adminUsers" element={<UsersList />} />
-            <Route path="/userupdate" element={<UserVue />} />
-            <Route path="/usercreate" element={<UserCreateForm />} />
-            <Route path="/adminRefuges" element={<RefugesList />} />
-            <Route path="/refugeupdate" element={<RefugeUpdateForm />} />
-            <Route path="/refugecreate" element={<RefugeCreateForm />} />
-            <Route path="/adminChiens" element={<ChiensList />} />
-            <Route path="/chienupdate" element={<ChienUpdateForm />} />
-            <Route path="/chiencreate" element={<ChienCreateForm />} />
-          </Routes>
-        </div>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Header />
+          <div id="main">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/connexion" element={<Login />} />
+              {/****** Debut Administration *******************************/}
+              <Route path="/administration" element={<AdminAccueil />} />
+              <Route path="/adminUsers" element={<UsersList />} />
+              <Route path="/userupdate" element={<UserVue />} />
+              <Route path="/usercreate" element={<UserCreateForm />} />
+              <Route path="/adminRefuges" element={<RefugesList />} />
+              <Route path="/refugeupdate" element={<RefugeUpdateForm />} />
+              <Route path="/refugecreate" element={<RefugeCreateForm />} />
+              <Route path="/adminChiens" element={<ChiensList />} />
+              <Route path="/chienupdate/:id" element={<ChienUpdateForm />} />
+              <Route path="/chiencreate" element={<ChienCreateForm />} />
+              <Route path="/chienstatut" element={<Statuts />} />
+              {/* Debut Global Display */}
+              <Route path="/chiens" element={<Chiens />} />
+            </Routes>
+          </div>
+        </Router>
+      </Provider>
     </div>
   );
 }

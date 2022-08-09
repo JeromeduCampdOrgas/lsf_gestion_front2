@@ -1,44 +1,87 @@
 import { useNavigate } from "react-router-dom";
-import store from "../../../app/store";
-import {
-  addChienData,
-  //deleteRefugeData,
-} from "../../../feature/chiens/selectedChienDataSlice";
-
+import { useState, useEffect } from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+
+import store from "../../../app/store";
 import configAxios from "../../../config/configAxios";
+
+import { getChiensList } from "../../../feature/chiens/chiensListSlice";
+import { getRefugesList } from "../../../feature/refuges/refugesListSlice";
+import { addChienData } from "../../../feature/chiens/selectedChienDataSlice";
+import Calendar from "react-calendar";
 
 /*********  CSS **************/
 import "../../../styles/Admin/chiens/chienAdminForm.scss";
-import { useState } from "react";
+import "../../../styles/outils/datepicker.css";
 
 const ChienUpdateForm = () => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
-  /********** Paramètres géoloc */
-  //const axios = require("axios");
-
-  /*************** */
   const chiensList = useSelector((state) => state.chiensList[0]);
+  const statutsList = useSelector((state) => state.statutsList[0]);
   const selectedChienId = useSelector((state) => state.selectedChien);
   const selectedChienData = useSelector((state) => state.selectedChienData);
-  //const refugeSelectedGeo = useSelector((state) => state.refugeSelectedGeo);
-  /******************** */
-  const [logoImg, setLogoImg] = useState();
   const refugesList = useSelector((state) => state.refugesList[0]);
+
+  const [showPicker, setShowPicker] = useState(false);
+  const [dogImg, setDogImg] = useState();
+  const [maDate, setMaDate] = useState();
+  const [dogSexe, setDogSexe] = useState();
+  const [dogRefuge, setDogRefuge] = useState();
+  const [dogStatut, setDogStatut] = useState();
+
   useEffect(() => {
     const chienData = chiensList.filter(
       (chien) => chien.id === parseInt(selectedChienId)
     );
     dispatch(addChienData(chienData));
-
-    setLogoImg(chienData[0].imageUrl);
+    setDogImg(chienData[0].imageUrl);
+    setMaDate(chienData[0].naissance);
+    setDogSexe(chienData[0].sexe);
+    setDogRefuge(chienData[0].refuge);
+    setDogStatut(chienData[0].statut);
   }, [dispatch, selectedChienId, chiensList]);
 
-  /********** Annulation action et retour page users administration ******/
-  //Remise à zero du store
+  /*** test datepicker */
+  const [selectedDate, setSelectedDate] = useState();
+  const [calendarText, setCalendarText] = useState("Pas de date sélectionnée");
+  const allMonthValues = [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Auoût",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+  ];
+
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
+    setCalendarText(`La date sélectionnée es ${value.toDateString()}`);
+    setShowPicker(!showPicker);
+    setMaDate(value.toLocaleDateString("fr"));
+  };
+  const handleYearChange = (value) => {
+    const yearValue = value.getFullYear();
+    setCalendarText(`${yearValue}`);
+  };
+  const handleMonthChange = (value) => {
+    const monthValue = allMonthValues[value.getMonth()];
+  };
+  const handleChangeSexe = (e) => setDogSexe(e.target.value);
+  const handleChangeRefuge = (e) => setDogRefuge(e.target.value);
+  const handleChangeStatut = (e) => {
+    setDogStatut(e.target.value);
+  };
+  const handleChangeImg = (e) => {
+    setDogImg(e.target.files[0]);
+  };
 
   const retour = () => {
     navigate("/adminChiens", { replace: true });
@@ -51,15 +94,60 @@ const ChienUpdateForm = () => {
   /******** Validation des modifications ***********/
 
   const validation = async () => {
-    console.log("je valide");
+    let nom = document.getElementById("nom");
+    let puce = document.getElementById("puce");
+    let taille = document.getElementById("taille");
+    let sante = document.getElementById("sante");
+    let localisation = document.getElementById("localisation");
+    let commentaires = document.getElementById("commentaires");
+    nom.value ? (nom = nom.value) : (nom = nom.placeholder);
+    puce.value ? (puce = puce.value) : (puce = puce.placeholder);
+    taille.value ? (taille = taille.value) : (taille = taille.placeholder);
+    sante.value ? (sante = sante.value) : (sante = sante.placeholder);
+    localisation.value
+      ? (localisation = localisation.value)
+      : (localisation = localisation.placeholder);
+    commentaires.value
+      ? (commentaires = commentaires.value)
+      : (commentaires = commentaires.placeholder);
+    const formData = new FormData();
+    formData.set("nom", nom);
+    formData.set("imageUrl", dogImg);
+    formData.set("naissance", maDate);
+    formData.set("puce", puce);
+    formData.set("taille", taille);
+    formData.set("sexe", dogSexe);
+    formData.set("sante", sante);
+    formData.set("refuge", dogRefuge);
+    formData.set("statut", dogStatut);
+    formData.set("localisation", localisation);
+    formData.set("commentaires", commentaires);
+    const token = localStorage.getItem("token");
+
+    configAxios
+      .put(`chiens/${selectedChienId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        configAxios.get(`chiens`).then((response) => {
+          dispatch(getChiensList(response.data));
+          configAxios.get(`refuges`).then((response) => {
+            dispatch(getRefugesList(response.data));
+            //navigate("/adminChiens", { replace: true });
+            window.location.reload();
+          });
+        });
+      });
   };
 
   /**************************************************/
   return (
     <Provider store={store}>
       <div id="chien-admin-form">
-        <h1>formulaire de modification</h1>
-
+        <h1>Formulaire de modification</h1>
+        {dogStatut}
         {selectedChienData[0] ? (
           <form>
             <div id="selected-dog">
@@ -75,11 +163,28 @@ const ChienUpdateForm = () => {
                 </label>
                 <label className="chien-info" htmlFor="logo">
                   Image:
-                  <input
-                    id="logo"
-                    type="file"
-                    onChange={(e) => setLogoImg(e.target.files)}
-                  />
+                  <input id="logo" type="file" onChange={handleChangeImg} />
+                </label>
+                <label className="chien-info" htmlFor="naissance">
+                  Né le:
+                  {showPicker ? (
+                    <Calendar
+                      className="calendar"
+                      onClickMonth={handleMonthChange}
+                      onClickYear={handleYearChange}
+                      onChange={handleDateChange}
+                      value={selectedDate}
+                    />
+                  ) : (
+                    <input
+                      id="birthday-date"
+                      type="text"
+                      onClick={() => setShowPicker(!showPicker)}
+                      onChange={handleDateChange}
+                      value={maDate}
+                      placeholder={selectedChienData[0].naissance}
+                    />
+                  )}
                 </label>
                 <label className="chien-info" htmlFor="puce">
                   N° de puce:
@@ -101,10 +206,10 @@ const ChienUpdateForm = () => {
                 </label>
 
                 <label className="chien-info" htmlFor="sexe">
-                  Sexe:
-                  <select name="sexe" id="sexe">
-                    <option value="">Mâle</option>
-                    <option value="">Femelle</option>
+                  Sexe:{dogSexe}
+                  <select name="sexe" id="sexe" onChange={handleChangeSexe}>
+                    <option value="Mâle">Mâle</option>
+                    <option value="Femelle">Femelle</option>
                   </select>
                 </label>
                 <label className="chien-info" htmlFor="sante">
@@ -116,18 +221,14 @@ const ChienUpdateForm = () => {
                     onFocus={handleValue}
                   />
                 </label>
-                <label className="chien-info" htmlFor="taille">
-                  Taille:
-                  <input
-                    id="nom"
-                    type="text"
-                    placeholder={selectedChienData[0].taille}
-                    onFocus={handleValue}
-                  />
-                </label>
+
                 <label className="chien-info" htmlFor="refuge">
                   Refuge
-                  <select name="refuge" id="refuge">
+                  <select
+                    name="refuge"
+                    id="refuge"
+                    onChange={handleChangeRefuge}
+                  >
                     <option value=""></option>
                     {refugesList?.map((refuge) => (
                       <option key={refuge.id} value={refuge.nom}>
@@ -138,16 +239,19 @@ const ChienUpdateForm = () => {
                 </label>
                 <label className="chien-info" htmlFor="statut">
                   Statut
-                  <select name="statut" id="statut">
-                    <option value="accueil">Accueil en France</option>
-                    <option value="espagne">En Espagne</option>
-                    <option value="adopte">Adopté</option>
-                    <option value="encours">Dossier en cours</option>
-                    <option value="reserve">Réservé</option>
+                  <select
+                    name="statut"
+                    id="statut"
+                    value={dogStatut}
+                    onChange={handleChangeStatut}
+                  >
+                    {statutsList.map((statut) => (
+                      <option key={statut.id}>{statut.statut}</option>
+                    ))}
                   </select>
                 </label>
                 <label className="chien-info" htmlFor="localisation">
-                  Localisation (saisir ville si adopté ou en accueil):
+                  Localisation (saisir la ville si adopté ou en accueil):
                   <input
                     id="localisation"
                     type="text"
@@ -171,7 +275,10 @@ const ChienUpdateForm = () => {
                     className="btn"
                     type="button"
                     value="Valider"
-                    onClick={() => validation()}
+                    onClick={() => {
+                      validation();
+                      retour();
+                    }}
                   />
                   <input
                     id="btn-escape"
@@ -183,12 +290,7 @@ const ChienUpdateForm = () => {
                 </div>
               </div>
               <div id="selected-dog-img">
-                <img
-                  id="dog-img"
-                  src={logoImg}
-                  crossOrigin="anonymous"
-                  alt=""
-                />
+                <img id="dog-img" src={dogImg} crossOrigin="anonymous" alt="" />
               </div>
             </div>
           </form>

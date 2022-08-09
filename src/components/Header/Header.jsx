@@ -6,7 +6,10 @@ const HeaderStyle = styled.header`
   width: 100%;
   text-align: center;
   margin: auto;
-  padding: 10px;
+  padding: 5px;
+  & img {
+    height: 100px;
+  }
 `;
 
 const Header = () => {

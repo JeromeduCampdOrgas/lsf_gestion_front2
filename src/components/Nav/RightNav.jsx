@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import "../../styles/Nav/nav.scss";
 /***** Users  */
 import { deleteConnexion } from "../../feature/users/userSlice";
 import { deleteUsersList } from "../../feature/users/usersListSlice";
@@ -83,7 +84,7 @@ const RightNav = ({ open }, { setopen }) => {
 
   return (
     <Provider store={store}>
-      <Ul open={open} setopen={setopen}>
+      <Ul open={open} setopen={setopen} className="navbar">
         <li id="home">
           <Link
             className="navbar__link"
@@ -93,7 +94,20 @@ const RightNav = ({ open }, { setopen }) => {
             Accueil
           </Link>
         </li>
-        <li>About us</li>
+        <li id="chiens">
+          <Link
+            className="navbar__link"
+            to={"/chiens"}
+            onClick={() => (open ? setopen(false) : "")}
+          >
+            Les chiens
+            <ul id="sous-menu">
+              <li>en accueil</li>
+              <li>test2</li>
+              <li>test3</li>
+            </ul>
+          </Link>
+        </li>
         <li>Contact us</li>
         <li id="login">
           {utilisateur.length > 0 ? (

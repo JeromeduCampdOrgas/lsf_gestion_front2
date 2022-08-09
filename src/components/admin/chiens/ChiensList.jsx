@@ -1,11 +1,14 @@
 import { useSelector, useDispatch, Provider } from "react-redux";
 import { useState } from "react";
 import { hideModal, showModal } from "../../../feature/users/deleteModalSlice";
+import { getStatutsList } from "../../../feature/statuts/statutsListSlice";
 import { useNavigate } from "react-router-dom";
+import configAxios from "../../../config/configAxios";
 
-import "../../../styles/Admin/refuges/refugeRow.scss";
-import "../../../styles/Admin/refuges/mapModal.scss";
-import "../../../styles/Admin/refuges/refugesList.scss";
+//import "../../../styles/Admin/refuges/refugeRow.scss";
+//import "../../../styles/Admin/refuges/mapModal.scss";
+//import "../../../styles/Admin/refuges/refugesList.scss";
+import "../../../styles/Admin/chiens/chiensList.scss";
 import ChienRow from "./ChienRow";
 //import RefugesMap from "./RefugesMap";
 import ChienDeleteModal from "../../admin/chiens/ChienDeleteModal";
@@ -18,32 +21,29 @@ const ChiensList = () => {
   const displayDeleteChienModal = useSelector(
     (state) => state.deleteChienModal
   );
+
   const [openModal, setOpenModal] = useState(false);
   let dispatch = useDispatch();
   const closeModal = () => {
     dispatch(hideModal(false));
   };
+  const getStatusList = () => {
+    configAxios
+      .get(`statut`)
+      .then((response) => dispatch(getStatutsList(response.data)));
+  };
   /************************************* */
   const navigate = useNavigate();
+
+  //const chienData = chiensList.filter((chien) => chien.id === 1);
   return (
     <Provider store={store}>
       <div>
         {!displayDeleteChienModal ? (
-          <div id="list-container">
+          <div id="list">
             {!displayModal ? (
               <div>
                 <div id="title">
-                  <span>
-                    <button
-                      className="btn"
-                      id="btn-add"
-                      onClick={() =>
-                        navigate(`/chiencreate`, { replace: true })
-                      }
-                    >
-                      Ajouter un chien
-                    </button>
-                  </span>
                   <h1>
                     Liste des chiens
                     <span
@@ -58,29 +58,55 @@ const ChiensList = () => {
                     </span>
                   </h1>
                 </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Image</th>
-                      <th>Nom</th>
-                      <th>N°de puce</th>
-                      <th>Sexe</th>
-                      <th>Taille</th>
-                      <th>Santé</th>
-                      <th>Refuge</th>
-                      <th>Statut</th>
-                      <th>Localisation</th>
-                      <th>Commentaires</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {chiensList?.map((chien) => (
-                      <ChienRow key={chien.id} chien={chien} />
-                    ))}
-                  </tbody>
-                </table>
+                <div id="list-container">
+                  <div id="list-actions">
+                    <h3>Actions</h3>
+                    <button
+                      className="btn"
+                      id="btn-add"
+                      onClick={() =>
+                        navigate(`/chiencreate`, { replace: true })
+                      }
+                    >
+                      Ajouter un chien
+                    </button>
+                    <button
+                      className="btn"
+                      id="btn-danger"
+                      onClick={() => {
+                        getStatusList();
+                        navigate(`/chienstatut`, { replace: true });
+                      }}
+                    >
+                      Ajouter un statut
+                    </button>
+                  </div>
+                  <div id="list-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Image</th>
+                          <th>Nom</th>
+                          <th>N°de puce</th>
+                          <th>Sexe</th>
+                          <th>Taille</th>
+                          <th>Santé</th>
+                          <th>Refuge</th>
+                          <th>Statut</th>
+                          <th>Localisation</th>
+
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {chiensList?.map((chien) => (
+                          <ChienRow key={chien.id} chien={chien} />
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             ) : (
               <div>

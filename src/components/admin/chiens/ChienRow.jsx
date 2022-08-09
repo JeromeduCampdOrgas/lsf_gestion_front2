@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addSelectedChien } from "../../../feature/chiens/selectedChienSlice";
@@ -7,12 +7,13 @@ import { showChienDeleteModal } from "../../../feature/chiens/deleteChienModalSl
 const ChienRow = ({ chien }) => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
+  const chiensList = useSelector((state) => state.chiensList[0]);
 
   const [openModal, setOpenModal] = useState(false);
   const modifier = () => {
-    navigate(`/chienupdate`, { replace: true });
+    navigate(`/chienupdate/${chien.id}`, { replace: true });
   };
-
+  const selectedChienId = useSelector((state) => state.selectedChien);
   return (
     <tr>
       <td className="id">{chien.id}</td>
@@ -33,7 +34,6 @@ const ChienRow = ({ chien }) => {
       <td className="refuge">{chien.refuge}</td>
       <td className="statut">{chien.statut}</td>
       <td className="localisation">{chien.localisation}</td>
-      <td className="commentaires">{chien.commentaires}</td>
 
       <td className="actions">
         <button
