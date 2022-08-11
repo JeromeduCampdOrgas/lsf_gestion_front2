@@ -29,6 +29,7 @@ const ChienRow = ({ chien }) => {
 
       <td className="puce">{chien.puce}</td>
       <td className="sexe">{chien.sexe}</td>
+      <td className="chat">{chien.chat}</td>
       <td className="taille">{chien.taille}</td>
       <td className="sante">{chien.sante}</td>
       <td className="refuge">{chien.refuge}</td>

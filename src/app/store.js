@@ -31,6 +31,7 @@ import selectedChienDataReducer from "../feature/chiens/selectedChienDataSlice";
 import deleteChienModalReducer from "../feature/chiens/deleteChienModalSlice";
 /******** Statuts ***/
 import statusListReducer from "../feature/statuts/statutsListSlice";
+import selectedStatutReducer from "../feature/statuts/selectedStatutSlice";
 
 const persistConfig = {
   key: "user",
@@ -58,6 +59,7 @@ const reducers = combineReducers({
   deleteChienModal: deleteChienModalReducer,
   /*** statuts */
   statutsList: statusListReducer,
+  selectedStatut: selectedStatutReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

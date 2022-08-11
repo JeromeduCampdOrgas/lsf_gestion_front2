@@ -16,6 +16,12 @@ import { deleteRefugeData } from "../../feature/refuges/selectedRefugeDataSlice"
 import { deleteChiensList } from "../../feature/chiens/chiensListSlice";
 import { deleteSelectedChien } from "../../feature/chiens/selectedChienSlice";
 import { deleteChienData } from "../../feature/chiens/selectedChienDataSlice";
+/**** Statuts */
+
+import {
+  addSelectedStatut,
+  deleteSelectedStatut,
+} from "../../feature/statuts/selectedStatutSlice";
 
 import store from "../../app/store.js";
 import { Provider, useSelector, useDispatch } from "react-redux";
@@ -65,9 +71,11 @@ const RightNav = ({ open }, { setopen }) => {
     dispatch(deleteRefugeData());
     dispatch(deleteSelectedRefuge());
     dispatch(deleteRefugeGeo());
+
     dispatch(deleteChiensList());
     dispatch(deleteChienData());
     dispatch(deleteSelectedChien());
+    dispatch(deleteSelectedStatut());
   };
 
   /****** Connexion */
@@ -81,58 +89,82 @@ const RightNav = ({ open }, { setopen }) => {
   useEffect(() => {
     connected();
   });
+  /****** sous menu "Les chiens" */
+  const statutsList = useSelector((state) => state.statutsList[0]);
 
   return (
     <Provider store={store}>
-      <Ul open={open} setopen={setopen} className="navbar">
-        <li id="home">
-          <Link
-            className="navbar__link"
-            to={"/"}
-            onClick={() => (open ? setopen(false) : "")}
-          >
-            Accueil
-          </Link>
-        </li>
-        <li id="chiens">
-          <Link
-            className="navbar__link"
-            to={"/chiens"}
-            onClick={() => (open ? setopen(false) : "")}
-          >
-            Les chiens
-            <ul id="sous-menu">
-              <li>en accueil</li>
-              <li>test2</li>
-              <li>test3</li>
-            </ul>
-          </Link>
-        </li>
-        <li>Contact us</li>
-        <li id="login">
-          {utilisateur.length > 0 ? (
+      <div id="wrap">
+        <Ul open={open} setopen={setopen} className="navbar">
+          <li id="home">
             <Link
               className="navbar__link"
-              to={"/connexion"}
-              onClick={() => disconnect()}
-            >
-              Se déconnecter
-            </Link>
-          ) : (
-            <Link
-              className="navbar__link"
-              to={"/connexion"}
+              to={"/"}
               onClick={() => (open ? setopen(false) : "")}
             >
-              Se connecter
+              Accueil
             </Link>
-          )}
-        </li>
+          </li>
+          <li id="chiens">
+            <Link
+              className="navbar__link"
+              to={"/chiens"}
+              onClick={() => (open ? setopen(false) : "")}
+            >
+              Les chiens
+              <ul id="sous-menu">
+                {statutsList.map((statut) => (
+                  <li
+                    key={statut.id}
+                    onClick={() => {
+                      dispatch(deleteSelectedStatut());
+                      dispatch(addSelectedStatut(statut.statut));
+                    }}
+                  >
+                    {statut.statut}
+                  </li>
+                ))}
+              </ul>
+            </Link>
+          </li>
 
-        <li>
-          {role === "admin" ? <Link to={"/administration"}>Admin</Link> : ""}
-        </li>
-      </Ul>
+          <li>
+            <Link className="navbar__link" to={"/test"}>
+              Test
+            </Link>
+          </li>
+
+          <li id="login">
+            {utilisateur.length > 0 ? (
+              <Link
+                className="navbar__link"
+                to={"/connexion"}
+                onClick={() => disconnect()}
+              >
+                Se déconnecter
+              </Link>
+            ) : (
+              <Link
+                className="navbar__link"
+                to={"/connexion"}
+                onClick={() => (open ? setopen(false) : "")}
+              >
+                Se connecter
+              </Link>
+            )}
+          </li>
+
+          <li>
+            {role === "admin" ? (
+              <Link to={"/administration"} className="navbar__link">
+                Admin
+              </Link>
+            ) : (
+              ""
+            )}
+          </li>
+        </Ul>
+      </div>
     </Provider>
   );
 };

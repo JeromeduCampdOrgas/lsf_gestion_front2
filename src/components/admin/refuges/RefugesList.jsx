@@ -31,7 +31,7 @@ const RefugesList = () => {
         {!displayDeleteRefugeModal ? (
           <div id="list-container">
             {!displayModal ? (
-              <div>
+              <div id="list">
                 <div id="title">
                   <span>
                     <button

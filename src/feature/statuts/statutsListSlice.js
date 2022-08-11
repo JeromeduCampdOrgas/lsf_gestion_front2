@@ -9,7 +9,8 @@ export const statutsListSlice = createSlice({
       state.push(payload);
     },
     deleteStatutsList: (state, action) => {
-      state.splice(0, 1);
+      let stateLength = state.length;
+      state.splice(0, stateLength);
     },
   },
 });

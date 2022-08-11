@@ -90,6 +90,7 @@ const ChiensList = () => {
                           <th>Nom</th>
                           <th>N°de puce</th>
                           <th>Sexe</th>
+                          <th>Chat</th>
                           <th>Taille</th>
                           <th>Santé</th>
                           <th>Refuge</th>

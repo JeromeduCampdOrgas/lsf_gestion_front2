@@ -2,6 +2,9 @@ import Header from "./components/Header/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import store from "./app/store";
 
+/*******CSS */
+import "./styles/app.scss";
+
 import Home from "./components/Layout/Home";
 import Login from "./components/User/Login";
 
@@ -23,6 +26,8 @@ import Statuts from "./components/admin/chiens/Statut";
 import { Provider } from "react-redux";
 /****** Global Display */
 import Chiens from "./components/globalDisplay/chiens/Chiens";
+
+/******* Test */
 
 function App() {
   return (
@@ -47,7 +52,7 @@ function App() {
               <Route path="/chiencreate" element={<ChienCreateForm />} />
               <Route path="/chienstatut" element={<Statuts />} />
               {/* Debut Global Display */}
-              <Route path="/chiens" element={<Chiens />} />
+              <Route path="/chiens" element={<Chiens />} test="test" />
             </Routes>
           </div>
         </Router>

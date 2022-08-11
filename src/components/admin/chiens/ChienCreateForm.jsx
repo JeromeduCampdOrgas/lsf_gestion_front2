@@ -7,6 +7,8 @@ import {
 } from "../../../feature/chiens/chiensListSlice";
 import { getRefugesList } from "../../../feature/refuges/refugesListSlice";
 import configAxios from "../../../config/configAxios";
+
+import Picker from "../outils/Picker";
 import "../../../styles/Admin/refuges/refugeAdminForm.scss";
 
 const ChienCreateForm = () => {
@@ -26,6 +28,7 @@ const ChienCreateForm = () => {
   const [dogRefuge, setDogRefuge] = useState("");
   const [dogStatut, setDogStatut] = useState("En Espagne");
   const [dogCommentaires, setDogCommentaires] = useState("");
+  const [dogChat, setDogChat] = useState("");
 
   /*********  handle Actions */
   const handleDogName = (event) => setDogNom(event.target.value);
@@ -37,8 +40,8 @@ const ChienCreateForm = () => {
   const handleDogImg = (event) => {
     setDogImg(event.target.files[0]);
   };
-  const handleMaDate = (event) => setMaDate(event.target.value);
   const handleDogSexe = (event) => setDogSexe(event.target.value);
+  const handleDogChat = (event) => setDogChat(event.target.value);
   const handleDogRefuge = (event) => setDogRefuge(event.target.value);
   const handleDogCommentaires = (event) =>
     setDogCommentaires(event.target.value);
@@ -75,9 +78,11 @@ const ChienCreateForm = () => {
       let sexe = document.getElementById("sexe");
       let refuge = document.getElementById("refuge");
       let statut = document.getElementById("statut");
+      let chat = document.getElementById("chat");
       dogSexe ? (sexe = dogSexe) : (sexe = sexe.value);
       dogRefuge ? (refuge = dogRefuge) : (refuge = refuge.value);
       dogStatut ? (statut = dogStatut) : (statut = statut.value);
+      dogChat ? (chat = dogChat) : (chat = chat.value);
 
       const formData = new FormData();
       formData.set("nom", dogNom);
@@ -88,6 +93,7 @@ const ChienCreateForm = () => {
       formData.set("imageUrl", dogImg);
       formData.set("naissance", maDate);
       formData.set("sexe", sexe);
+      formData.set("chat", dogChat);
       formData.set("refuge", refuge);
       formData.set("statut", statut);
       formData.set("commentaires", dogCommentaires);
@@ -109,6 +115,16 @@ const ChienCreateForm = () => {
         });
     }
   };
+  /*** test datepicker */
+  const [selectedDate, setSelectedDate] = useState();
+
+  const [showPicker, setShowPicker] = useState(false);
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
+    setShowPicker(!showPicker);
+    setMaDate(value.toLocaleDateString("fr"));
+  };
+
   /**************************************************/
   return (
     <div id="chien-admin-form">
@@ -142,7 +158,27 @@ const ChienCreateForm = () => {
             </label>
             <label className="chien-info" htmlFor="naissance">
               Né le:
-              <input id="birthday-date" type="text" onChange={handleMaDate} />
+              {showPicker ? (
+                <div>
+                  <div className="btn-close-container">
+                    <button
+                      className="btn close-calendar"
+                      onClick={() => setShowPicker(false)}
+                    >
+                      X
+                    </button>
+                  </div>
+                  <Picker handleDateChange={handleDateChange} />
+                </div>
+              ) : (
+                <input
+                  id="birthday-date"
+                  type="text"
+                  onClick={() => setShowPicker(!showPicker)}
+                  onChange={handleDateChange}
+                  defaultValue={maDate ? maDate : ""}
+                />
+              )}
             </label>
             <label className="chien-info" htmlFor="puce">
               N° de puce:
@@ -163,6 +199,17 @@ const ChienCreateForm = () => {
                 <option value="Femelle">Femelle</option>
               </select>
             </label>
+            <label
+              className="chien-info"
+              htmlFor="chat"
+              onChange={handleDogChat}
+            >
+              <select name="chat" id="chat">
+                <option value="Ok">Ok</option>
+                <option value="Ko">Ko</option>
+                <option value="encours">En cours</option>
+              </select>
+            </label>
             <label className="chien-info" htmlFor="sante">
               Santé:
               <input id="sante" type="text" onChange={handleDogSante} />
@@ -171,7 +218,7 @@ const ChienCreateForm = () => {
             <label className="chien-info" htmlFor="refuge">
               Refuge
               <select name="refuge" id="refuge" onChange={handleDogRefuge}>
-                <option value=""></option>
+                <option defaultValue=""></option>
                 {refugesList?.map((refuge) => (
                   <option key={refuge.id} value={refuge.nom}>
                     {refuge.nom}

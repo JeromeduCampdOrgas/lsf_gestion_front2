@@ -8,8 +8,8 @@ import configAxios from "../../../config/configAxios";
 import { getChiensList } from "../../../feature/chiens/chiensListSlice";
 import { getRefugesList } from "../../../feature/refuges/refugesListSlice";
 import { addChienData } from "../../../feature/chiens/selectedChienDataSlice";
-import Calendar from "react-calendar";
 
+import Picker from "../outils/Picker";
 /*********  CSS **************/
 import "../../../styles/Admin/chiens/chienAdminForm.scss";
 import "../../../styles/outils/datepicker.css";
@@ -30,6 +30,7 @@ const ChienUpdateForm = () => {
   const [dogSexe, setDogSexe] = useState();
   const [dogRefuge, setDogRefuge] = useState();
   const [dogStatut, setDogStatut] = useState();
+  const [dogChat, setDogChat] = useState();
 
   useEffect(() => {
     const chienData = chiensList.filter(
@@ -39,46 +40,26 @@ const ChienUpdateForm = () => {
     setDogImg(chienData[0].imageUrl);
     setMaDate(chienData[0].naissance);
     setDogSexe(chienData[0].sexe);
+    setDogChat(chienData[0].chat);
     setDogRefuge(chienData[0].refuge);
     setDogStatut(chienData[0].statut);
   }, [dispatch, selectedChienId, chiensList]);
 
   /*** test datepicker */
   const [selectedDate, setSelectedDate] = useState();
-  const [calendarText, setCalendarText] = useState("Pas de date sélectionnée");
-  const allMonthValues = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Auoût",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
-  ];
 
   const handleDateChange = (value) => {
     setSelectedDate(value);
-    setCalendarText(`La date sélectionnée es ${value.toDateString()}`);
     setShowPicker(!showPicker);
     setMaDate(value.toLocaleDateString("fr"));
   };
-  const handleYearChange = (value) => {
-    const yearValue = value.getFullYear();
-    setCalendarText(`${yearValue}`);
-  };
-  const handleMonthChange = (value) => {
-    const monthValue = allMonthValues[value.getMonth()];
-  };
+
   const handleChangeSexe = (e) => setDogSexe(e.target.value);
   const handleChangeRefuge = (e) => setDogRefuge(e.target.value);
   const handleChangeStatut = (e) => {
     setDogStatut(e.target.value);
   };
+  const handleChangeChat = (e) => setDogChat(e.target.value);
   const handleChangeImg = (e) => {
     setDogImg(e.target.files[0]);
   };
@@ -100,6 +81,10 @@ const ChienUpdateForm = () => {
     let sante = document.getElementById("sante");
     let localisation = document.getElementById("localisation");
     let commentaires = document.getElementById("commentaires");
+    let sexe = document.getElementById("sexe");
+    let refuge = document.getElementById("refuge");
+    let statut = document.getElementById("statut");
+    let chat = document.getElementById("chat");
     nom.value ? (nom = nom.value) : (nom = nom.placeholder);
     puce.value ? (puce = puce.value) : (puce = puce.placeholder);
     taille.value ? (taille = taille.value) : (taille = taille.placeholder);
@@ -110,16 +95,25 @@ const ChienUpdateForm = () => {
     commentaires.value
       ? (commentaires = commentaires.value)
       : (commentaires = commentaires.placeholder);
+    /******    ****/
+
+    dogSexe ? (sexe = dogSexe) : (sexe = sexe.value);
+    dogRefuge ? (refuge = dogRefuge) : (refuge = refuge.value);
+    dogStatut ? (statut = dogStatut) : (statut = statut.value);
+    dogChat ? (chat = dogChat) : (chat = chat.value);
+    /*********** */
+
     const formData = new FormData();
     formData.set("nom", nom);
     formData.set("imageUrl", dogImg);
     formData.set("naissance", maDate);
     formData.set("puce", puce);
     formData.set("taille", taille);
-    formData.set("sexe", dogSexe);
+    formData.set("sexe", sexe);
+    formData.set("chat", chat);
     formData.set("sante", sante);
-    formData.set("refuge", dogRefuge);
-    formData.set("statut", dogStatut);
+    formData.set("refuge", refuge);
+    formData.set("statut", statut);
     formData.set("localisation", localisation);
     formData.set("commentaires", commentaires);
     const token = localStorage.getItem("token");
@@ -135,7 +129,6 @@ const ChienUpdateForm = () => {
           dispatch(getChiensList(response.data));
           configAxios.get(`refuges`).then((response) => {
             dispatch(getRefugesList(response.data));
-            //navigate("/adminChiens", { replace: true });
             window.location.reload();
           });
         });
@@ -147,7 +140,7 @@ const ChienUpdateForm = () => {
     <Provider store={store}>
       <div id="chien-admin-form">
         <h1>Formulaire de modification</h1>
-        {dogStatut}
+
         {selectedChienData[0] ? (
           <form>
             <div id="selected-dog">
@@ -168,20 +161,24 @@ const ChienUpdateForm = () => {
                 <label className="chien-info" htmlFor="naissance">
                   Né le:
                   {showPicker ? (
-                    <Calendar
-                      className="calendar"
-                      onClickMonth={handleMonthChange}
-                      onClickYear={handleYearChange}
-                      onChange={handleDateChange}
-                      value={selectedDate}
-                    />
+                    <div>
+                      <div className="btn-close-container">
+                        <button
+                          className="btn close-calendar"
+                          onClick={() => setShowPicker(false)}
+                        >
+                          X
+                        </button>
+                      </div>
+                      <Picker handleDateChange={handleDateChange} />
+                    </div>
                   ) : (
                     <input
                       id="birthday-date"
                       type="text"
                       onClick={() => setShowPicker(!showPicker)}
                       onChange={handleDateChange}
-                      value={maDate}
+                      defaultValue={maDate ? maDate : ""}
                       placeholder={selectedChienData[0].naissance}
                     />
                   )}
@@ -208,8 +205,31 @@ const ChienUpdateForm = () => {
                 <label className="chien-info" htmlFor="sexe">
                   Sexe:{dogSexe}
                   <select name="sexe" id="sexe" onChange={handleChangeSexe}>
-                    <option value="Mâle">Mâle</option>
-                    <option value="Femelle">Femelle</option>
+                    <option value="Mâle" key="1">
+                      Mâle
+                    </option>
+                    <option value="Femelle" key="2">
+                      Femelle
+                    </option>
+                  </select>
+                </label>
+
+                <label
+                  className="chien-info"
+                  htmlFor="chat"
+                  onChange={handleChangeChat}
+                >
+                  Chat
+                  <select name="chat" id="chat">
+                    <option value="Ok" key="1">
+                      Ok
+                    </option>
+                    <option value="Ko" key="2">
+                      Ko
+                    </option>
+                    <option value="encours" key="3">
+                      En cours
+                    </option>
                   </select>
                 </label>
                 <label className="chien-info" htmlFor="sante">

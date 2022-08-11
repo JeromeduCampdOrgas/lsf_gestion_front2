@@ -22,14 +22,14 @@ const ChienDeleteModal = () => {
 
     //appel axios
     await configAxios
-      .delete(`chien/${chienId}`, {
+      .delete(`chiens/${chienId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(() => {
         configAxios
-          .get("refuges")
+          .get("chiens")
           .then((response) => {
             dispatch(getChiensList(response.data));
             navigate("/adminChiens", { replace: true });
@@ -46,7 +46,7 @@ const ChienDeleteModal = () => {
           <button onClick={() => closeModal()}>X</button>
         </div>
         <div className="title">
-          <h1>Etes-vous sûr de vouloir supprimer cet utilisateur</h1>
+          <h1>Etes-vous sûr de vouloir supprimer ce chien?</h1>
         </div>
 
         <div className="footer">
